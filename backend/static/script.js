@@ -1273,3 +1273,78 @@ window.addEventListener('load', () => {
         generateMatrixInputs(matrixLuAInputsElement, luDimension, luDimension, 'A_lu');
     }
 }); 
+
+// Tab overflow menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const tabOverflowMenu = document.querySelector('.tab-overflow-menu');
+    const tabs = document.querySelector('.tabs');
+    
+    if (tabOverflowMenu) {
+        tabOverflowMenu.addEventListener('click', function() {
+            // Create a dropdown menu with tab options
+            let dropdownMenu = document.querySelector('.tab-dropdown');
+            
+            if (dropdownMenu) {
+                // Toggle the menu if it already exists
+                dropdownMenu.classList.toggle('show-dropdown');
+                return;
+            }
+            
+            // Create the dropdown menu
+            dropdownMenu = document.createElement('div');
+            dropdownMenu.className = 'tab-dropdown';
+            
+            // Add all tab options
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                const tabOption = document.createElement('div');
+                tabOption.className = 'tab-option';
+                tabOption.innerHTML = button.innerHTML;
+                
+                if (button.classList.contains('active')) {
+                    tabOption.classList.add('active');
+                }
+                
+                tabOption.addEventListener('click', function() {
+                    const tabId = button.getAttribute('data-tab');
+                    activateTab(tabId);
+                    dropdownMenu.classList.remove('show-dropdown');
+                });
+                
+                dropdownMenu.appendChild(tabOption);
+            });
+            
+            // Add the dropdown to the page
+            document.querySelector('.tabs-container').appendChild(dropdownMenu);
+            dropdownMenu.classList.add('show-dropdown');
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function closeDropdown(e) {
+                if (!e.target.closest('.tab-dropdown') && !e.target.closest('.tab-overflow-menu')) {
+                    const dropdown = document.querySelector('.tab-dropdown');
+                    if (dropdown && dropdown.classList.contains('show-dropdown')) {
+                        dropdown.classList.remove('show-dropdown');
+                    }
+                }
+            });
+        });
+    }
+    
+    // Function to activate a tab
+    function activateTab(tabId) {
+        // Deactivate all tabs
+        document.querySelectorAll('.tab-button').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Activate the selected tab
+        const selectedTab = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+        const selectedContent = document.getElementById(tabId);
+        
+        if (selectedTab) selectedTab.classList.add('active');
+        if (selectedContent) selectedContent.classList.add('active');
+    }
+}); 

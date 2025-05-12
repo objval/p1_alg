@@ -122,7 +122,6 @@ La calculadora ofrece las siguientes operaciones matriciales:
 
 3. **Instalar dependencias**:
    ```
-   cd backend
    pip install -r requirements.txt
    ```
 
@@ -130,8 +129,7 @@ La calculadora ofrece las siguientes operaciones matriciales:
 
 1. **Inicio del Servidor**:
    ```
-   cd backend
-   uvicorn main:app --reload
+    uvicorn backend.main:app --reload   
    ```
 
 2. **Acceso a la Interfaz**:

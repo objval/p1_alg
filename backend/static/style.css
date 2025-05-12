@@ -156,65 +156,147 @@ body.light-theme .theme-toggle .fa-sun {
 
 /* Tabs */
 .tabs-container {
+    position: relative;
     background-color: var(--bg-light);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow);
     margin-top: 20px;
     overflow: hidden;
     border: 1px solid var(--border-color);
+    width: 100%;
 }
 
 .tabs {
     display: flex;
+    flex-wrap: wrap;
     background: linear-gradient(to right, var(--bg-dark), var(--bg-light));
     border-bottom: 1px solid var(--border-color);
     overflow-x: auto;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    gap: 0;
+    justify-content: space-between;
 }
 
 .tabs::-webkit-scrollbar {
-    display: none;
+    height: 3px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 10px;
 }
 
 .tab-button {
-    padding: 15px 22px;
+    padding: 12px 16px;
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-light);
     transition: var(--transition);
     position: relative;
     white-space: nowrap;
     letter-spacing: 0.5px;
+    flex: 1;
+    text-align: center;
 }
 
-.tab-button:after {
+.tab-text {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.tab-button i {
+    margin-right: 2px;
+}
+
+.tab-button:hover {
+    color: var(--accent-color);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tab-button.active {
+    color: var(--accent-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-button.active::after {
     content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(to right, var(--primary-color), var(--accent-secondary));
-    transform: scaleX(0);
-    transition: transform 0.3s ease;
-    border-radius: 3px 3px 0 0;
+    background-color: var(--accent-color);
 }
 
-.tab-button:hover {
-    color: var(--primary-light);
-    background-color: rgba(108, 92, 231, 0.1);
+.tab-overflow-menu {
+    display: none; /* Hidden since we're using full-width tabs */
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 }
 
-.tab-button.active {
-    color: var(--primary-light);
-    background-color: rgba(108, 92, 231, 0.15);
+/* Responsive Tab Styling */
+@media (max-width: 920px) {
+    .tab-button {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
 }
 
-.tab-button.active:after {
-    transform: scaleX(1);
+@media (max-width: 768px) {
+    .tabs {
+        flex-wrap: nowrap;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+    }
+    
+    .tab-button {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        flex: 0 0 auto;
+    }
+    
+    .tab-overflow-menu {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .tabs {
+        justify-content: flex-start;
+    }
+    
+    .tab-button {
+        padding: 8px 12px;
+    }
+    
+    .tab-text {
+        display: none;
+    }
+    
+    .tab-button i {
+        margin-right: 0;
+        font-size: 16px;
+    }
+    
+    .wip-badge {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        font-size: 8px;
+        padding: 2px 4px;
+    }
 }
 
 .tab-content {
@@ -1243,3 +1325,58 @@ footer {
     }
 }
 /* End Gauss-Jordan Elimination Specific Styles */
+
+/* Tab dropdown menu styles */
+.tab-dropdown {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 45px;
+    width: 200px;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.tab-dropdown.show-dropdown {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+.tab-option {
+    padding: 12px 15px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border-color-light);
+    transition: var(--transition);
+}
+
+.tab-option:last-child {
+    border-bottom: none;
+}
+
+.tab-option:hover {
+    background-color: rgba(108, 92, 231, 0.1);
+}
+
+.tab-option.active {
+    color: var(--accent-color);
+    background-color: rgba(108, 92, 231, 0.15);
+}
+
+.tab-option i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

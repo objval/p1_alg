@@ -25,31 +25,31 @@
         <div class="tabs-container">
             <div class="tabs">
                 <button class="tab-button active" data-tab="basic-ops">
-                    <i class="fas fa-plus-minus"></i> Suma/Resta
+                    <i class="fas fa-plus-minus"></i> <span class="tab-text">Suma/Resta</span>
                 </button>
                 <button class="tab-button" data-tab="multiplication">
-                    <i class="fas fa-times"></i> Multiplicación
+                    <i class="fas fa-times"></i> <span class="tab-text">Multiplicación</span>
                 </button>
                 <button class="tab-button" data-tab="determinant">
-                    <i class="fas fa-calculator"></i> Determinante
+                    <i class="fas fa-calculator"></i> <span class="tab-text">Determinante</span>
                 </button>
                 <button class="tab-button" data-tab="inverse">
-                    <i class="fas fa-undo"></i> Inversa
+                    <i class="fas fa-undo"></i> <span class="tab-text">Inversa</span>
                 </button>
                 <button class="tab-button" data-tab="gaussian-elimination">
-                    <i class="fas fa-stream"></i> Gaussiana (Ax=b)
+                    <i class="fas fa-stream"></i> <span class="tab-text">Gaussiana</span>
                 </button>
                 <button class="tab-button" data-tab="gauss-jordan">
-                    <i class="fas fa-project-diagram"></i> Gauss-Jordan
+                    <i class="fas fa-project-diagram"></i> <span class="tab-text">Gauss-Jordan</span>
                 </button>
                 <button class="tab-button" data-tab="lu-factorization">
-                    <i class="fas fa-th-large"></i> Factorización LU
-                </button>
-                <button class="tab-button" data-tab="systems">
-                    <i class="fas fa-equals"></i> Otros Sistemas
-                    <span class="wip-badge">WIP</span>
+                    <i class="fas fa-th-large"></i> <span class="tab-text">Fact. LU</span>
                 </button>
             </div>
+
+            <button class="tab-overflow-menu" title="Más operaciones">
+                <i class="fas fa-ellipsis-h"></i>
+            </button>
 
             <div class="tab-content active" id="basic-ops">
                 <div class="matrix-setup-container">
@@ -549,14 +549,7 @@
                 </div>
             </div>
 
-            <div class="tab-content" id="systems">
-                <div class="wip-container">
-                    <i class="fas fa-equals wip-icon"></i>
-                    <h2>Sistemas de Ecuaciones Lineales</h2>
-                    <p>Esta funcionalidad está en desarrollo y estará disponible pronto.</p>
-                    <p class="wip-note">Se incluirán métodos de eliminación gaussiana, Gauss-Jordan y factorización LU.</p>
-                </div>
-            </div>
+        
         </div>
     </main>
 
