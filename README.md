@@ -4,7 +4,7 @@
 ![Licencia](https://img.shields.io/badge/Licencia-MIT-yellow.svg)
 
 <div align="center">
-  <img src="fotos/logo.png" alt="Logo de la calculadora" width="200"/>
+  <img src="fotos/logo.webp" alt="Logo de la calculadora" width="200"/>
   <br/>
   <i>Una calculadora potente y didáctica para operaciones de álgebra lineal</i>
 </div>
