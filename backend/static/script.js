@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // DOM Elements - UI Controls
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
-    const themeToggle = document.querySelector('.theme-toggle');
     const copyResultBtn = document.getElementById('copyResult');
     const copyMultResultBtn = document.getElementById('copyMultResult');
     const copyDetResultBtn = document.getElementById('copyDetResult');
@@ -192,13 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         
-        // Initialize theme toggle
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-theme');
-        }
-        
-        themeToggle.addEventListener('click', toggleTheme);
+        // Always use dark theme
+        document.body.classList.add('dark-theme');
         
         // Initialize copy buttons
         if (copyResultBtn) {
@@ -394,6 +388,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 generateMatrixInputs(matrixLuAInputs, luDim, luDim, 'A_lu');
             }
         }
+
+        // Initialize presets
+        initializePresets();
     }
     
     function updateMultiplicationDimensionHint() {
@@ -426,11 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generateMatrixInputs(container, rows, cols, matrixName);
     }
     
-    function toggleTheme() {
-        document.body.classList.toggle('dark-theme');
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        localStorage.setItem('theme', currentTheme);
-    }
+    // Theme toggle function removed
     
     async function copyResultToClipboard(matrixDiv, copyBtn) {
         const table = matrixDiv.querySelector('table');
@@ -1223,6 +1216,1246 @@ document.addEventListener('DOMContentLoaded', () => {
             displayError(errorLuDisplay, error.message || 'No se pudo conectar con el API o hubo un error en la respuesta.');
         } finally {
             showLoader(luLoader, false);
+        }
+    }
+
+    // Matrix Presets functionality
+    function initializePresets() {
+        // Basic Operations presets
+        const presetButtons = document.querySelectorAll('.preset-btn');
+        if (presetButtons.length > 0) {
+            presetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyPreset(presetType);
+                    
+                    // Add animation effect to the button
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+        
+        // Multiplication presets
+        const multPresetButtons = document.querySelectorAll('.preset-btn-mult');
+        if (multPresetButtons.length > 0) {
+            multPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyMultiplicationPreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                    
+                    // Update dimension hint after applying preset
+                    setTimeout(() => {
+                        updateMultiplicationDimensionHint();
+                    }, 100);
+                });
+            });
+        }
+        
+        // Determinant presets
+        const detPresetButtons = document.querySelectorAll('.preset-btn-det');
+        if (detPresetButtons.length > 0) {
+            detPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyDeterminantPreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+        
+        // Inverse presets
+        const invPresetButtons = document.querySelectorAll('.preset-btn-inv');
+        if (invPresetButtons.length > 0) {
+            invPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyInversePreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+
+        // Gaussian elimination presets
+        const gaussPresetButtons = document.querySelectorAll('.preset-btn-gauss');
+        if (gaussPresetButtons.length > 0) {
+            gaussPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyGaussianPreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+
+        // Gauss-Jordan presets
+        const gjPresetButtons = document.querySelectorAll('.preset-btn-gj');
+        if (gjPresetButtons.length > 0) {
+            gjPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyGaussJordanPreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+
+        // LU factorization presets
+        const luPresetButtons = document.querySelectorAll('.preset-btn-lu');
+        if (luPresetButtons.length > 0) {
+            luPresetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const presetType = button.getAttribute('data-preset');
+                    applyLUPreset(presetType);
+                    
+                    button.classList.add('active');
+                    setTimeout(() => {
+                        button.classList.remove('active');
+                    }, 500);
+                });
+            });
+        }
+    }
+
+    function applyPreset(presetType) {
+        // Get current matrix dimensions
+        const rowsA = parseInt(document.getElementById('rowsA').value);
+        const colsA = parseInt(document.getElementById('colsA').value);
+        const rowsB = parseInt(document.getElementById('rowsB').value);
+        const colsB = parseInt(document.getElementById('colsB').value);
+        
+        // Get input containers
+        const matrixAInputs = document.getElementById('matrixAInputs');
+        const matrixBInputs = document.getElementById('matrixBInputs');
+        
+        if (!matrixAInputs || !matrixBInputs) return;
+        
+        // Clear existing values first
+        const allInputs = [...matrixAInputs.querySelectorAll('input'), ...matrixBInputs.querySelectorAll('input')];
+        allInputs.forEach(input => input.value = '');
+        
+        // Apply different presets based on type
+        switch (presetType) {
+            case 'identity':
+                applyIdentityMatrices(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB);
+                break;
+            case 'simple':
+                applySimpleTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB);
+                break;
+            case 'fractions':
+                applyFractionsTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB);
+                break;
+            case 'negatives':
+                applyNegativesTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB);
+                break;
+            case 'random':
+                applyRandomMatrices(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB);
+                break;
+        }
+        
+        // Trigger animation effect to highlight the changes
+        highlightMatrixChanges(matrixAInputs);
+        highlightMatrixChanges(matrixBInputs);
+    }
+
+    function highlightMatrixChanges(matrixContainer) {
+        const inputs = matrixContainer.querySelectorAll('input');
+        inputs.forEach((input, index) => {
+            // Apply staggered animation to each cell
+            setTimeout(() => {
+                input.classList.add('preset-applied');
+                setTimeout(() => {
+                    input.classList.remove('preset-applied');
+                }, 800);
+            }, index * 50);
+        });
+    }
+
+    function applyIdentityMatrices(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Set Matrix A to identity matrix
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                const index = i * colsA + j;
+                inputsA[index].value = i === j ? '1' : '0';
+            }
+        }
+        
+        // Set Matrix B to identity matrix
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            for (let j = 0; j < colsB; j++) {
+                const index = i * colsB + j;
+                inputsB[index].value = i === j ? '1' : '0';
+            }
+        }
+    }
+
+    function applySimpleTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Test case with simple integers
+        const valuesA = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16]
+        ];
+        
+        const valuesB = [
+            [2, 3, 4, 5],
+            [6, 7, 8, 9],
+            [10, 11, 12, 13],
+            [14, 15, 16, 17]
+        ];
+        
+        // Apply values to Matrix A
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                if (i < valuesA.length && j < valuesA[0].length) {
+                    const index = i * colsA + j;
+                    inputsA[index].value = valuesA[i][j];
+                }
+            }
+        }
+        
+        // Apply values to Matrix B
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            for (let j = 0; j < colsB; j++) {
+                if (i < valuesB.length && j < valuesB[0].length) {
+                    const index = i * colsB + j;
+                    inputsB[index].value = valuesB[i][j];
+                }
+            }
+        }
+    }
+
+    function applyFractionsTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Test case with fractions
+        const valuesA = [
+            ['1/2', '2/3', '3/4', '1/5'],
+            ['1/3', '1/4', '1/5', '1/6'],
+            ['2/3', '3/4', '4/5', '5/6'],
+            ['1/6', '1/7', '1/8', '1/9']
+        ];
+        
+        const valuesB = [
+            ['1/3', '1/4', '1/5', '1/6'],
+            ['2/3', '3/4', '4/5', '5/6'],
+            ['1/2', '2/3', '3/4', '4/5'],
+            ['3/5', '4/7', '5/9', '6/11']
+        ];
+        
+        // Apply values to Matrix A
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                if (i < valuesA.length && j < valuesA[0].length) {
+                    const index = i * colsA + j;
+                    inputsA[index].value = valuesA[i][j];
+                }
+            }
+        }
+        
+        // Apply values to Matrix B
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            for (let j = 0; j < colsB; j++) {
+                if (i < valuesB.length && j < valuesB[0].length) {
+                    const index = i * colsB + j;
+                    inputsB[index].value = valuesB[i][j];
+                }
+            }
+        }
+    }
+
+    function applyNegativesTestCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Test case with negative values
+        const valuesA = [
+            [-1, -2, -3, -4],
+            [-5, -6, -7, -8],
+            [-9, -10, -11, -12],
+            [-13, -14, -15, -16]
+        ];
+        
+        const valuesB = [
+            [1, 2, 3, 4],
+            [5, 6, 7, 8],
+            [9, 10, 11, 12],
+            [13, 14, 15, 16]
+        ];
+        
+        // Apply values to Matrix A
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                if (i < valuesA.length && j < valuesA[0].length) {
+                    const index = i * colsA + j;
+                    inputsA[index].value = valuesA[i][j];
+                }
+            }
+        }
+        
+        // Apply values to Matrix B
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            for (let j = 0; j < colsB; j++) {
+                if (i < valuesB.length && j < valuesB[0].length) {
+                    const index = i * colsB + j;
+                    inputsB[index].value = valuesB[i][j];
+                }
+            }
+        }
+    }
+
+    function applyRandomMatrices(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Generate random integer values between -10 and 10
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < inputsA.length; i++) {
+            inputsA[i].value = Math.floor(Math.random() * 21) - 10;
+        }
+        
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < inputsB.length; i++) {
+            inputsB[i].value = Math.floor(Math.random() * 21) - 10;
+        }
+    }
+
+    // Function to apply multiplication presets
+    function applyMultiplicationPreset(presetType) {
+        // Get current matrix dimensions
+        const rowsA = parseInt(document.getElementById('rowsMultA').value);
+        const colsA = parseInt(document.getElementById('colsMultA').value);
+        const rowsB = parseInt(document.getElementById('rowsMultB').value);
+        const colsB = parseInt(document.getElementById('colsMultB').value);
+        
+        const matrixAInputs = document.getElementById('matrixMultAInputs');
+        const matrixBInputs = document.getElementById('matrixMultBInputs');
+        
+        if (!matrixAInputs || !matrixBInputs) return;
+        
+        // Clear existing values
+        const allInputs = [...matrixAInputs.querySelectorAll('input'), ...matrixBInputs.querySelectorAll('input')];
+        allInputs.forEach(input => input.value = '');
+        
+        // For some presets we need to adjust dimensions for compatibility
+        let needToAdjustDimensions = false;
+        
+        switch (presetType) {
+            case 'identity':
+                // Ensure square matrices of same dimension
+                if (rowsA !== colsA || rowsB !== colsB || colsA !== rowsB) {
+                    document.getElementById('rowsMultA').value = 3;
+                    document.getElementById('colsMultA').value = 3;
+                    document.getElementById('rowsMultB').value = 3;
+                    document.getElementById('colsMultB').value = 3;
+                    
+                    generateMatrixInputs(matrixAInputs, 3, 3, 'A');
+                    generateMatrixInputs(matrixBInputs, 3, 3, 'B');
+                    needToAdjustDimensions = true;
+                }
+                
+                applyIdentityMatricesForMultiplication(matrixAInputs, matrixBInputs, 
+                    needToAdjustDimensions ? 3 : rowsA, 
+                    needToAdjustDimensions ? 3 : colsA, 
+                    needToAdjustDimensions ? 3 : rowsB, 
+                    needToAdjustDimensions ? 3 : colsB);
+                break;
+                
+            case 'simple':
+                // Ensure A is 2x3 and B is 3x2 for a classic multiplication example
+                if (rowsA !== 2 || colsA !== 3 || rowsB !== 3 || colsB !== 2) {
+                    document.getElementById('rowsMultA').value = 2;
+                    document.getElementById('colsMultA').value = 3;
+                    document.getElementById('rowsMultB').value = 3;
+                    document.getElementById('colsMultB').value = 2;
+                    
+                    generateMatrixInputs(matrixAInputs, 2, 3, 'A');
+                    generateMatrixInputs(matrixBInputs, 3, 2, 'B');
+                    needToAdjustDimensions = true;
+                }
+                
+                applySimpleMultiplicationCase(matrixAInputs, matrixBInputs);
+                break;
+                
+            case 'matrix-vector':
+                // Matrix × Vector: make B a column vector
+                if (colsB !== 1) {
+                    document.getElementById('colsMultB').value = 1;
+                    generateMatrixInputs(matrixBInputs, rowsB, 1, 'B');
+                }
+                
+                // Ensure A columns = B rows for compatibility
+                if (colsA !== rowsB) {
+                    document.getElementById('colsMultA').value = rowsB;
+                    generateMatrixInputs(matrixAInputs, rowsA, rowsB, 'A');
+                    needToAdjustDimensions = true;
+                }
+                
+                applyMatrixVectorCase(matrixAInputs, matrixBInputs, 
+                    rowsA, 
+                    needToAdjustDimensions ? rowsB : colsA, 
+                    rowsB, 1);
+                break;
+                
+            case 'special':
+                // Apply a special case with interesting properties (e.g., rotation matrix)
+                if (rowsA !== 2 || colsA !== 2 || rowsB !== 2 || colsB !== 2) {
+                    document.getElementById('rowsMultA').value = 2;
+                    document.getElementById('colsMultA').value = 2;
+                    document.getElementById('rowsMultB').value = 2;
+                    document.getElementById('colsMultB').value = 2;
+                    
+                    generateMatrixInputs(matrixAInputs, 2, 2, 'A');
+                    generateMatrixInputs(matrixBInputs, 2, 2, 'B');
+                    needToAdjustDimensions = true;
+                }
+                
+                applySpecialMultiplicationCase(matrixAInputs, matrixBInputs);
+                break;
+                
+            case 'random':
+                // Ensure dimensions are compatible for multiplication
+                if (colsA !== rowsB) {
+                    document.getElementById('rowsMultB').value = colsA;
+                    generateMatrixInputs(matrixBInputs, colsA, colsB, 'B');
+                    needToAdjustDimensions = true;
+                }
+                
+                applyRandomMultiplicationMatrices(matrixAInputs, matrixBInputs, 
+                    rowsA, colsA, 
+                    needToAdjustDimensions ? colsA : rowsB, colsB);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixAInputs);
+        highlightMatrixChanges(matrixBInputs);
+    }
+
+    // Function to apply determinant presets
+    function applyDeterminantPreset(presetType) {
+        const dimension = parseInt(document.getElementById('dimensionDet').value);
+        const matrixInputs = document.getElementById('matrixDetInputs');
+        
+        if (!matrixInputs) return;
+        
+        // Clear existing values
+        const inputs = matrixInputs.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+        
+        switch (presetType) {
+            case 'identity':
+                applyIdentityMatrixForDeterminant(matrixInputs, dimension);
+                break;
+            
+            case 'singular':
+                applySingularMatrixForDeterminant(matrixInputs, dimension);
+                break;
+            
+            case 'triangular':
+                applyTriangularMatrixForDeterminant(matrixInputs, dimension);
+                break;
+            
+            case 'symmetric':
+                applySymmetricMatrixForDeterminant(matrixInputs, dimension);
+                break;
+            
+            case 'random':
+                applyRandomMatrixForDeterminant(matrixInputs, dimension);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixInputs);
+    }
+
+    // Helper functions for multiplication presets
+    function applyIdentityMatricesForMultiplication(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Apply identity matrices
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                const index = i * colsA + j;
+                inputsA[index].value = i === j ? '1' : '0';
+            }
+        }
+        
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            for (let j = 0; j < colsB; j++) {
+                const index = i * colsB + j;
+                inputsB[index].value = i === j ? '1' : '0';
+            }
+        }
+    }
+
+    function applySimpleMultiplicationCase(matrixAInputs, matrixBInputs) {
+        // 2x3 and 3x2 matrices for showcasing matrix multiplication
+        const valuesA = [
+            [1, 2, 3],
+            [4, 5, 6]
+        ];
+        
+        const valuesB = [
+            [7, 8],
+            [9, 10],
+            [11, 12]
+        ];
+        
+        // Apply to Matrix A (2x3)
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 3; j++) {
+                const index = i * 3 + j;
+                inputsA[index].value = valuesA[i][j];
+            }
+        }
+        
+        // Apply to Matrix B (3x2)
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 2; j++) {
+                const index = i * 2 + j;
+                inputsB[index].value = valuesB[i][j];
+            }
+        }
+    }
+
+    function applyMatrixVectorCase(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Fill matrix A with sequential values
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsA; i++) {
+            for (let j = 0; j < colsA; j++) {
+                const index = i * colsA + j;
+                inputsA[index].value = i + j + 1;
+            }
+        }
+        
+        // Fill vector B with ones
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < rowsB; i++) {
+            inputsB[i].value = '1';
+        }
+    }
+
+    function applySpecialMultiplicationCase(matrixAInputs, matrixBInputs) {
+        // Rotation matrix (90 degrees) for A
+        const valuesA = [
+            [0, -1],
+            [1, 0]
+        ];
+        
+        // Matrix with vector to rotate
+        const valuesB = [
+            [1, 2],
+            [3, 4]
+        ];
+        
+        // Apply to Matrix A
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                const index = i * 2 + j;
+                inputsA[index].value = valuesA[i][j];
+            }
+        }
+        
+        // Apply to Matrix B
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                const index = i * 2 + j;
+                inputsB[index].value = valuesB[i][j];
+            }
+        }
+    }
+
+    function applyRandomMultiplicationMatrices(matrixAInputs, matrixBInputs, rowsA, colsA, rowsB, colsB) {
+        // Generate random integers between -5 and 5
+        const inputsA = matrixAInputs.querySelectorAll('input');
+        for (let i = 0; i < inputsA.length; i++) {
+            inputsA[i].value = Math.floor(Math.random() * 11) - 5;
+        }
+        
+        const inputsB = matrixBInputs.querySelectorAll('input');
+        for (let i = 0; i < inputsB.length; i++) {
+            inputsB[i].value = Math.floor(Math.random() * 11) - 5;
+        }
+    }
+
+    // Helper functions for determinant presets
+    function applyIdentityMatrixForDeterminant(matrixInputs, dimension) {
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = i === j ? '1' : '0';
+            }
+        }
+    }
+
+    function applySingularMatrixForDeterminant(matrixInputs, dimension) {
+        // Create a singular matrix (with determinant 0)
+        // Method: Create a matrix where one row is a multiple of another row
+        
+        // First fill with random values
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = Math.floor(Math.random() * 10) + 1;
+            }
+        }
+        
+        // Then make the last row a multiple of the first row
+        for (let j = 0; j < dimension; j++) {
+            const multiplier = 2; // A simple multiple
+            const firstRowIndex = j;
+            const lastRowIndex = (dimension - 1) * dimension + j;
+            
+            inputs[lastRowIndex].value = multiplier * parseInt(inputs[firstRowIndex].value);
+        }
+    }
+
+    function applyTriangularMatrixForDeterminant(matrixInputs, dimension) {
+        // Create an upper triangular matrix (zeros below diagonal)
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = j >= i ? Math.floor(Math.random() * 9) + 1 : '0';
+            }
+        }
+    }
+
+    function applySymmetricMatrixForDeterminant(matrixInputs, dimension) {
+        // Create a symmetric matrix (M[i][j] = M[j][i])
+        const inputs = matrixInputs.querySelectorAll('input');
+        
+        // First fill upper triangular part with random values
+        for (let i = 0; i < dimension; i++) {
+            for (let j = i; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = Math.floor(Math.random() * 9) + 1;
+            }
+        }
+        
+        // Then mirror values to make it symmetric
+        for (let i = 1; i < dimension; i++) {
+            for (let j = 0; j < i; j++) {
+                const sourceIndex = j * dimension + i;
+                const targetIndex = i * dimension + j;
+                inputs[targetIndex].value = inputs[sourceIndex].value;
+            }
+        }
+    }
+
+    function applyRandomMatrixForDeterminant(matrixInputs, dimension) {
+        // Generate random integers for determinant calculation
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = Math.floor(Math.random() * 19) - 9; // Values between -9 and 9
+        }
+    }
+
+    // Function to apply inverse matrix presets
+    function applyInversePreset(presetType) {
+        const dimension = parseInt(document.getElementById('dimensionInv').value);
+        const matrixInputs = document.getElementById('matrixInvInputs');
+        
+        if (!matrixInputs) return;
+        
+        // Clear existing values
+        const inputs = matrixInputs.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+        
+        switch (presetType) {
+            case 'identity':
+                // Identity matrix (its inverse is itself)
+                applyIdentityMatrixForInverse(matrixInputs, dimension);
+                break;
+            
+            case 'simple':
+                // Simple invertible matrix
+                applySimpleInvertibleMatrix(matrixInputs, dimension);
+                break;
+            
+            case 'diagonal':
+                // Diagonal matrix with non-zero elements
+                applyDiagonalMatrix(matrixInputs, dimension);
+                break;
+            
+            case 'orthogonal':
+                // Orthogonal matrix (its transpose is its inverse)
+                applyOrthogonalMatrix(matrixInputs, dimension);
+                break;
+            
+            case 'random':
+                // Random invertible matrix
+                applyRandomInvertibleMatrix(matrixInputs, dimension);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixInputs);
+    }
+
+    // Function to apply Gaussian elimination presets
+    function applyGaussianPreset(presetType) {
+        const dimension = parseInt(document.getElementById('dimensionGaussA').value);
+        const matrixAInputs = document.getElementById('matrixGaussAInputs');
+        const vectorBInputs = document.getElementById('vectorGaussBInputs');
+        
+        if (!matrixAInputs || !vectorBInputs) return;
+        
+        // Clear existing values
+        matrixAInputs.querySelectorAll('input').forEach(input => input.value = '');
+        vectorBInputs.querySelectorAll('input').forEach(input => input.value = '');
+        
+        switch (presetType) {
+            case 'identity':
+                // Identity matrix with simple b vector
+                applyIdentitySystemForGauss(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'simple':
+                // Simple system with integer solutions
+                applySimpleSystemForGauss(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'consistent':
+                // System with unique solution
+                applyConsistentSystemForGauss(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'inconsistent':
+                // System with no solution
+                applyInconsistentSystemForGauss(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'random':
+                // Random system
+                applyRandomSystemForGauss(matrixAInputs, vectorBInputs, dimension);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixAInputs);
+        highlightMatrixChanges(vectorBInputs);
+    }
+
+    // Function to apply Gauss-Jordan presets
+    function applyGaussJordanPreset(presetType) {
+        const dimension = parseInt(document.getElementById('dimensionGaussJordanA').value);
+        const matrixAInputs = document.getElementById('matrixGaussJordanAInputs');
+        const vectorBInputs = document.getElementById('vectorGaussJordanBInputs');
+        
+        if (!matrixAInputs || !vectorBInputs) return;
+        
+        // Clear existing values
+        matrixAInputs.querySelectorAll('input').forEach(input => input.value = '');
+        vectorBInputs.querySelectorAll('input').forEach(input => input.value = '');
+        
+        switch (presetType) {
+            case 'identity':
+                // Identity matrix with simple b vector
+                applyIdentitySystemForGaussJordan(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'simple':
+                // Simple system with integer solutions
+                applySimpleSystemForGaussJordan(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'unique':
+                // System with unique solution
+                applyUniqueSystemForGaussJordan(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'infinite':
+                // System with infinite solutions
+                applyInfiniteSystemForGaussJordan(matrixAInputs, vectorBInputs, dimension);
+                break;
+            
+            case 'random':
+                // Random system
+                applyRandomSystemForGaussJordan(matrixAInputs, vectorBInputs, dimension);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixAInputs);
+        highlightMatrixChanges(vectorBInputs);
+    }
+
+    // Helper functions for inverse presets
+    function applyIdentityMatrixForInverse(matrixInputs, dimension) {
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = i === j ? '1' : '0';
+            }
+        }
+    }
+
+    function applySimpleInvertibleMatrix(matrixInputs, dimension) {
+        // Create a simple invertible matrix
+        const matrices = {
+            1: [[2]],
+            2: [
+                [1, 2],
+                [3, 4]
+            ],
+            3: [
+                [1, 0, 2],
+                [2, 1, 0],
+                [0, 3, 1]
+            ],
+            4: [
+                [1, 0, 0, 1],
+                [1, 2, 0, 0],
+                [0, 1, 3, 0],
+                [0, 0, 1, 4]
+            ]
+        };
+
+        const matrix = matrices[dimension] || matrices[2];
+        const inputs = matrixInputs.querySelectorAll('input');
+        
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = matrix[i][j];
+            }
+        }
+    }
+
+    function applyDiagonalMatrix(matrixInputs, dimension) {
+        // Diagonal matrix with random non-zero elements
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                if (i === j) {
+                    // Non-zero random value for diagonal elements
+                    inputs[index].value = Math.floor(Math.random() * 8) + 1; // 1 to 8
+                } else {
+                    inputs[index].value = '0';
+                }
+            }
+        }
+    }
+
+    function applyOrthogonalMatrix(matrixInputs, dimension) {
+        // For 2x2, we can use a rotation matrix
+        if (dimension === 2) {
+            const inputs = matrixInputs.querySelectorAll('input');
+            // Rotation matrix (30 degrees)
+            const cos = Math.sqrt(3)/2;
+            const sin = 0.5;
+            
+            inputs[0].value = cos.toFixed(3);
+            inputs[1].value = sin.toFixed(3);
+            inputs[2].value = (-sin).toFixed(3);
+            inputs[3].value = cos.toFixed(3);
+            return;
+        }
+        
+        // For larger dimensions, start with identity and add some structure
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                if (i === j) {
+                    inputs[index].value = '1';
+                } else if (i === j + 1 || i + 1 === j) {
+                    inputs[index].value = '0.5';
+                } else {
+                    inputs[index].value = '0';
+                }
+            }
+        }
+    }
+
+    function applyRandomInvertibleMatrix(matrixInputs, dimension) {
+        const inputs = matrixInputs.querySelectorAll('input');
+        
+        // Start with identity to ensure invertibility
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = i === j ? '1' : '0';
+            }
+        }
+        
+        // Add random elements but keep matrix invertible by keeping determinant non-zero
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                if (i !== j) {  // Keep diagonal dominant
+                    const index = i * dimension + j;
+                    inputs[index].value = Math.floor(Math.random() * 7) - 3; // -3 to 3
+                }
+            }
+        }
+    }
+
+    // Helper functions for Gaussian elimination presets
+    function applyIdentitySystemForGauss(matrixInputs, vectorInputs, dimension) {
+        // Identity matrix with b vector of sequential numbers
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = i === j ? '1' : '0';
+            }
+        }
+        
+        // b vector with sequential values
+        const bInputs = vectorInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            bInputs[i].value = i + 1;
+        }
+    }
+
+    function applySimpleSystemForGauss(matrixInputs, vectorInputs, dimension) {
+        // Simple system with integer coefficients
+        const systems = {
+            1: {
+                A: [[2]],
+                b: [4]
+            },
+            2: {
+                A: [
+                    [1, 1],
+                    [2, 3]
+                ],
+                b: [5, 13]
+            },
+            3: {
+                A: [
+                    [1, 1, 1],
+                    [2, 3, 1],
+                    [1, 1, 2]
+                ],
+                b: [6, 10, 8]
+            },
+            4: {
+                A: [
+                    [1, 1, 1, 1],
+                    [1, 2, 3, 4],
+                    [4, 3, 2, 1],
+                    [1, 3, 3, 1]
+                ],
+                b: [10, 20, 30, 40]
+            }
+        };
+
+        const system = systems[dimension] || systems[2];
+        
+        // Fill matrix A
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = system.A[i][j];
+            }
+        }
+        
+        // Fill vector b
+        const bInputs = vectorInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            bInputs[i].value = system.b[i];
+        }
+    }
+
+    function applyConsistentSystemForGauss(matrixInputs, vectorInputs, dimension) {
+        // Create a consistent system with nice solutions (all 1s)
+        const inputs = matrixInputs.querySelectorAll('input');
+        const bInputs = vectorInputs.querySelectorAll('input');
+        
+        // Start with random values for matrix A
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = Math.floor(Math.random() * 5) + 1; // 1 to 5
+            }
+        }
+        
+        // Set b to be the sum of columns (ensures x = [1,1,...,1] is a solution)
+        for (let i = 0; i < dimension; i++) {
+            let sum = 0;
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                sum += parseInt(inputs[index].value);
+            }
+            bInputs[i].value = sum;
+        }
+    }
+
+    function applyInconsistentSystemForGauss(matrixInputs, vectorInputs, dimension) {
+        // Create an inconsistent system (no solution)
+        if (dimension < 2) return;
+        
+        const inputs = matrixInputs.querySelectorAll('input');
+        const bInputs = vectorInputs.querySelectorAll('input');
+        
+        // Make first two rows proportional
+        for (let j = 0; j < dimension; j++) {
+            inputs[j].value = j + 1; // First row
+            inputs[dimension + j].value = 2 * (j + 1); // Second row (proportional to first)
+        }
+        
+        // Fill other rows with random values if dimension > 2
+        for (let i = 2; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = Math.floor(Math.random() * 5) + 1;
+            }
+        }
+        
+        // Make system inconsistent by setting different b values for proportional rows
+        bInputs[0].value = 10;
+        bInputs[1].value = 15; // Should be 20 for consistency with the 2x factor
+        
+        // Random values for other b elements
+        for (let i = 2; i < dimension; i++) {
+            bInputs[i].value = Math.floor(Math.random() * 20) + 1;
+        }
+    }
+
+    function applyRandomSystemForGauss(matrixInputs, vectorInputs, dimension) {
+        // Random system
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].value = Math.floor(Math.random() * 10) - 5; // -5 to 4
+        }
+        
+        const bInputs = vectorInputs.querySelectorAll('input');
+        for (let i = 0; i < bInputs.length; i++) {
+            bInputs[i].value = Math.floor(Math.random() * 20) - 10; // -10 to 9
+        }
+    }
+
+    // Helper functions for Gauss-Jordan presets
+    function applyIdentitySystemForGaussJordan(matrixInputs, vectorInputs, dimension) {
+        // Same as Gaussian
+        applyIdentitySystemForGauss(matrixInputs, vectorInputs, dimension);
+    }
+
+    function applySimpleSystemForGaussJordan(matrixInputs, vectorInputs, dimension) {
+        // Same as Gaussian
+        applySimpleSystemForGauss(matrixInputs, vectorInputs, dimension);
+    }
+
+    function applyUniqueSystemForGaussJordan(matrixInputs, vectorInputs, dimension) {
+        // Similar to consistent system for Gaussian
+        applyConsistentSystemForGauss(matrixInputs, vectorInputs, dimension);
+    }
+
+    function applyInfiniteSystemForGaussJordan(matrixInputs, vectorInputs, dimension) {
+        // Create a system with infinite solutions
+        if (dimension < 2) return;
+        
+        const inputs = matrixInputs.querySelectorAll('input');
+        const bInputs = vectorInputs.querySelectorAll('input');
+        
+        // Clear first
+        inputs.forEach(input => input.value = '0');
+        bInputs.forEach(input => input.value = '0');
+        
+        // Create a matrix with linearly dependent rows
+        // First row: all 1s
+        for (let j = 0; j < dimension; j++) {
+            inputs[j].value = '1';
+        }
+        
+        // Second row: 2 times first row
+        for (let j = 0; j < dimension; j++) {
+            inputs[dimension + j].value = '2';
+        }
+        
+        // Fill remaining rows to be linearly independent from first row
+        for (let i = 2; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                if (j < i) {
+                    inputs[index].value = Math.floor(Math.random() * 5) + 1;
+                } else if (j === i) {
+                    inputs[index].value = '1';
+                }
+            }
+        }
+        
+        // Set b values to be consistent with the linear dependency
+        bInputs[0].value = dimension;
+        bInputs[1].value = 2 * dimension;
+        
+        // Set other b values
+        for (let i = 2; i < dimension; i++) {
+            bInputs[i].value = i + 1;
+        }
+    }
+
+    function applyRandomSystemForGaussJordan(matrixInputs, vectorInputs, dimension) {
+        // Same as Gaussian
+        applyRandomSystemForGauss(matrixInputs, vectorInputs, dimension);
+    }
+
+    // Function to apply LU factorization presets
+    function applyLUPreset(presetType) {
+        const dimension = parseInt(document.getElementById('dimensionLuA').value);
+        const matrixInputs = document.getElementById('matrixLuAInputs');
+        
+        if (!matrixInputs) return;
+        
+        // Clear existing values
+        const inputs = matrixInputs.querySelectorAll('input');
+        inputs.forEach(input => input.value = '');
+        
+        switch (presetType) {
+            case 'identity':
+                // Identity matrix
+                applyIdentityMatrixForLU(matrixInputs, dimension);
+                break;
+            
+            case 'simple':
+                // Simple matrix with known LU factorization
+                applySimpleMatrixForLU(matrixInputs, dimension);
+                break;
+            
+            case 'triangular':
+                // Upper triangular matrix (U = A, L = I)
+                applyTriangularMatrixForLU(matrixInputs, dimension);
+                break;
+            
+            case 'diagonal':
+                // Diagonal matrix with random values
+                applyDiagonalMatrixForLU(matrixInputs, dimension);
+                break;
+            
+            case 'random':
+                // Random matrix
+                applyRandomMatrixForLU(matrixInputs, dimension);
+                break;
+        }
+        
+        // Highlight the changes
+        highlightMatrixChanges(matrixInputs);
+    }
+
+    // Helper functions for LU factorization presets
+    function applyIdentityMatrixForLU(matrixInputs, dimension) {
+        // Identity matrix - will yield L = U = I
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = i === j ? '1' : '0';
+            }
+        }
+    }
+
+    function applySimpleMatrixForLU(matrixInputs, dimension) {
+        // Create a simple matrix with known LU factorization
+        const matrices = {
+            1: [[2]],
+            2: [
+                [2, 1],
+                [6, 4]
+            ],
+            3: [
+                [4, 2, 1],
+                [8, 7, 2],
+                [4, 2, 5]
+            ],
+            4: [
+                [4, 2, 1, 1],
+                [8, 8, 2, 3],
+                [4, 6, 6, 4],
+                [2, 4, 2, 8]
+            ]
+        };
+
+        const matrix = matrices[dimension] || matrices[2];
+        const inputs = matrixInputs.querySelectorAll('input');
+        
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                inputs[index].value = matrix[i][j];
+            }
+        }
+    }
+
+    function applyTriangularMatrixForLU(matrixInputs, dimension) {
+        // Upper triangular matrix (U = A, L = I)
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                if (j >= i) {
+                    inputs[index].value = Math.floor(Math.random() * 9) + 1;
+                } else {
+                    inputs[index].value = '0';
+                }
+            }
+        }
+    }
+
+    function applyDiagonalMatrixForLU(matrixInputs, dimension) {
+        // Diagonal matrix (trivial LU factorization)
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                if (i === j) {
+                    inputs[index].value = Math.floor(Math.random() * 9) + 1;
+                } else {
+                    inputs[index].value = '0';
+                }
+            }
+        }
+    }
+
+    function applyRandomMatrixForLU(matrixInputs, dimension) {
+        // Generate random integers - avoiding zero entries on the diagonal to help with pivots
+        const inputs = matrixInputs.querySelectorAll('input');
+        for (let i = 0; i < dimension; i++) {
+            for (let j = 0; j < dimension; j++) {
+                const index = i * dimension + j;
+                // For diagonal elements, use values 1-9 to avoid singular matrices
+                if (i === j) {
+                    inputs[index].value = Math.floor(Math.random() * 9) + 1;
+                } else {
+                    // For non-diagonal elements, use values -5 to 5
+                    inputs[index].value = Math.floor(Math.random() * 11) - 5;
+                }
+            }
         }
     }
 }); 

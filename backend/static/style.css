@@ -25,26 +25,6 @@
     --matrix-bracket-color: var(--primary-light);
 }
 
-.light-theme {
-    --primary-color: #6c5ce7;
-    --primary-light: #a29bfe;
-    --primary-dark: #5341d6;
-    --accent-color: #ff6b81;
-    --accent-light: #ff8c9e;
-    --accent-secondary: #00d2d3;
-    --text-color: #333;
-    --text-light: #555;
-    --text-muted: #888;
-    --bg-color: #f8f9fa;
-    --bg-light: #ffffff;
-    --bg-lighter: #f1f3f5;
-    --bg-dark: #e9ecef;
-    --border-color: #dee2e6;
-    --success-color: #00b894;
-    --warning-color: #fdcb6e;
-    --error-color: #ff7675;
-    --matrix-bracket-color: var(--primary-color);
-}
 
 * {
     box-sizing: border-box;
@@ -104,54 +84,6 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     width: 95%;
-}
-
-/* Theme Toggle */
-.theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    background-color: var(--bg-light);
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 2px solid var(--primary-light);
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1) rotate(15deg);
-    box-shadow: var(--shadow-lg);
-    background-color: var(--primary-light);
-    color: var(--bg-dark);
-}
-
-.theme-toggle i {
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    transition: var(--transition);
-}
-
-.theme-toggle:hover i {
-    color: white;
-}
-
-.theme-toggle .fa-sun {
-    display: none;
-}
-
-body.light-theme .theme-toggle .fa-moon {
-    display: none;
-}
-
-body.light-theme .theme-toggle .fa-sun {
-    display: block;
 }
 
 /* Tabs */
@@ -964,7 +896,6 @@ footer {
     }
 }
 
-/* Dark mode is default, light mode styles are in the .light-theme class */
 
 /* Inverse Specific Styles */
 .inv-btn {
@@ -1379,4 +1310,182 @@ footer {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Preset Buttons Styling */
+.preset-container {
+    background-color: var(--bg-lighter);
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+
+.preset-container h3 {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.preset-btn,
+.preset-btn-mult,
+.preset-btn-det,
+.preset-btn-inv,
+.preset-btn-gauss,
+.preset-btn-gj,
+.preset-btn-lu {
+    background: linear-gradient(to right, var(--primary-dark), var(--primary-color));
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 8px 14px;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-sm);
+}
+
+.preset-btn:hover,
+.preset-btn-mult:hover,
+.preset-btn-det:hover,
+.preset-btn-inv:hover,
+.preset-btn-gauss:hover,
+.preset-btn-gj:hover,
+.preset-btn-lu:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+/* Add specific styling for different preset button types */
+.preset-btn[data-preset="identity"],
+.preset-btn-mult[data-preset="identity"],
+.preset-btn-det[data-preset="identity"],
+.preset-btn-inv[data-preset="identity"],
+.preset-btn-gauss[data-preset="identity"],
+.preset-btn-gj[data-preset="identity"],
+.preset-btn-lu[data-preset="identity"] {
+    background: linear-gradient(to right, #4b6cb7, #6c5ce7);
+}
+
+.preset-btn[data-preset="simple"],
+.preset-btn-mult[data-preset="simple"],
+.preset-btn-det[data-preset="singular"],
+.preset-btn-inv[data-preset="simple"],
+.preset-btn-gauss[data-preset="simple"],
+.preset-btn-gj[data-preset="simple"],
+.preset-btn-lu[data-preset="simple"] {
+    background: linear-gradient(to right, #6c5ce7, #8e44ad);
+}
+
+.preset-btn[data-preset="fractions"],
+.preset-btn-mult[data-preset="matrix-vector"],
+.preset-btn-det[data-preset="triangular"],
+.preset-btn-inv[data-preset="diagonal"],
+.preset-btn-gauss[data-preset="consistent"],
+.preset-btn-gj[data-preset="unique"],
+.preset-btn-lu[data-preset="triangular"] {
+    background: linear-gradient(to right, #8e44ad, #e74c3c);
+}
+
+.preset-btn[data-preset="negatives"],
+.preset-btn-mult[data-preset="special"],
+.preset-btn-det[data-preset="symmetric"],
+.preset-btn-inv[data-preset="orthogonal"],
+.preset-btn-gauss[data-preset="inconsistent"],
+.preset-btn-gj[data-preset="infinite"],
+.preset-btn-lu[data-preset="diagonal"] {
+    background: linear-gradient(to right, #e74c3c, #f39c12);
+}
+
+.preset-btn[data-preset="random"],
+.preset-btn-mult[data-preset="random"],
+.preset-btn-det[data-preset="random"],
+.preset-btn-inv[data-preset="random"],
+.preset-btn-gauss[data-preset="random"],
+.preset-btn-gj[data-preset="random"],
+.preset-btn-lu[data-preset="random"] {
+    background: linear-gradient(to right, #f39c12, #27ae60);
+}
+
+.preset-btn:active,
+.preset-btn-mult:active,
+.preset-btn-det:active,
+.preset-btn-inv:active,
+.preset-btn-gauss:active,
+.preset-btn-gj:active,
+.preset-btn-lu:active {
+    transform: translateY(0);
+}
+
+.preset-btn i,
+.preset-btn-mult i,
+.preset-btn-det i,
+.preset-btn-inv i,
+.preset-btn-gauss i,
+.preset-btn-gj i,
+.preset-btn-lu i {
+    font-size: 0.9rem;
+}
+
+.preset-btn.active,
+.preset-btn-mult.active,
+.preset-btn-det.active,
+.preset-btn-inv.active,
+.preset-btn-gauss.active,
+.preset-btn-gj.active,
+.preset-btn-lu.active {
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+    color: white;
+    transform: scale(1.05);
+}
+
+@media (max-width: 576px) {
+    .preset-buttons {
+        gap: 8px;
+    }
+    
+    .preset-btn,
+    .preset-btn-mult,
+    .preset-btn-det,
+    .preset-btn-inv,
+    .preset-btn-gauss,
+    .preset-btn-gj,
+    .preset-btn-lu {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+.preset-btn.active {
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+    color: white;
+    transform: scale(1.05);
+}
+
+@keyframes pulseHighlight {
+    0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.5); background-color: var(--bg-dark); }
+    50% { box-shadow: 0 0 5px 2px rgba(108, 92, 231, 0.6); background-color: var(--bg-light); }
+    100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); background-color: var(--bg-dark); }
+}
+
+.matrix-cell.preset-applied {
+    animation: pulseHighlight 0.8s ease-in-out;
+    border-color: var(--primary-color);
 }

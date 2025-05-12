@@ -11,11 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="theme-toggle" title="Cambiar tema">
-        <i class="fas fa-moon"></i>
-        <i class="fas fa-sun"></i>
-    </div>
-
     <header>
         <h1>Calculadora de Álgebra Lineal <span class="version">v1.0</span></h1>
         <p class="subtitle">MAT1187 - Universidad</p>
@@ -106,6 +101,27 @@
                     </div>
                 </div>
 
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Matrices Identidad
+                        </button>
+                        <button class="preset-btn" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn" data-preset="fractions">
+                            <i class="fas fa-divide"></i> Fracciones
+                        </button>
+                        <button class="preset-btn" data-preset="negatives">
+                            <i class="fas fa-minus-circle"></i> Negativos
+                        </button>
+                        <button class="preset-btn" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+
                 <div class="operations-container">
                     <button id="addButton" class="operation-btn">
                         <i class="fas fa-plus"></i> Sumar (A + B)
@@ -186,6 +202,27 @@
                     </div>
                 </div>
                 
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-mult" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Matrices Identidad
+                        </button>
+                        <button class="preset-btn-mult" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn-mult" data-preset="matrix-vector">
+                            <i class="fas fa-arrows-alt-h"></i> Matriz × Vector
+                        </button>
+                        <button class="preset-btn-mult" data-preset="special">
+                            <i class="fas fa-star"></i> Caso Especial
+                        </button>
+                        <button class="preset-btn-mult" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="dimension-hint" id="multiplicationDimensionHint">
                     <i class="fas fa-info-circle"></i>
                     <span>Para multiplicar A×B: las columnas de A (2) deben ser iguales a las filas de B (2)</span>
@@ -251,6 +288,27 @@
                     </div>
                 </div>
 
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-det" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Matriz Identidad
+                        </button>
+                        <button class="preset-btn-det" data-preset="singular">
+                            <i class="fas fa-ban"></i> Matriz Singular
+                        </button>
+                        <button class="preset-btn-det" data-preset="triangular">
+                            <i class="fas fa-play"></i> Triangular
+                        </button>
+                        <button class="preset-btn-det" data-preset="symmetric">
+                            <i class="fas fa-balance-scale"></i> Simétrica
+                        </button>
+                        <button class="preset-btn-det" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+
                 <div class="operations-container">
                     <button id="determinantButton" class="operation-btn det-btn">
                         <i class="fas fa-calculator"></i> Calcular Determinante
@@ -306,6 +364,27 @@
                             <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Eliminación Gauss-Jordan</p>
                             <p class="method-description">Se aumenta la matriz original con la matriz identidad [A|I] y se aplican operaciones elementales de fila hasta obtener [I|A<sup>-1</sup>].</p>
                         </div>
+                    </div>
+                </div>
+
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-inv" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Identidad
+                        </button>
+                        <button class="preset-btn-inv" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn-inv" data-preset="diagonal">
+                            <i class="fas fa-ruler-vertical"></i> Diagonal
+                        </button>
+                        <button class="preset-btn-inv" data-preset="orthogonal">
+                            <i class="fas fa-vector-square"></i> Ortogonal
+                        </button>
+                        <button class="preset-btn-inv" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
                     </div>
                 </div>
 
@@ -384,6 +463,27 @@
                     </div>
                 </div>
 
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-gauss" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Identidad
+                        </button>
+                        <button class="preset-btn-gauss" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn-gauss" data-preset="consistent">
+                            <i class="fas fa-check-circle"></i> Sistema Consistente
+                        </button>
+                        <button class="preset-btn-gauss" data-preset="inconsistent">
+                            <i class="fas fa-times-circle"></i> Sin Solución
+                        </button>
+                        <button class="preset-btn-gauss" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+
                 <div class="operations-container">
                     <button id="solveGaussianButton" class="operation-btn gauss-solve-btn">
                         <i class="fas fa-play-circle"></i> Resolver Sistema (Ax=b)
@@ -403,70 +503,6 @@
                     </div>
 
                     <div id="errorGaussianDisplay" class="error-display"></div>
-                </div>
-            </div>
-
-            <div class="tab-content" id="lu-factorization">
-                <div class="matrix-setup-container">
-                    <div class="matrix-container" id="matrixLuAContainer">
-                        <h2><i class="fas fa-table"></i> Matriz A para LU</h2>
-                        <div class="dimension-selector">
-                            <label for="dimensionLuA">Dimensión (A es N×N):</label>
-                            <select id="dimensionLuA" class="dimension-selector-lu-a">
-                                <option value="1">1×1</option>
-                                <option value="2" selected>2×2</option>
-                                <option value="3">3×3</option>
-                                <option value="4">4×4</option>
-                            </select>
-                        </div>
-                        <div class="matrix-wrapper" id="luAMatrixWrapper">
-                            <div id="matrixLuAInputs" class="matrix-inputs"></div>
-                        </div>
-                        <div class="matrix-info">
-                            <p><i class="fas fa-info-circle"></i> A debe ser cuadrada. Ingresa números enteros, decimales o fracciones.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="lu-info-panel inv-info-panel">
-                        <h3><i class="fas fa-info-circle"></i> Factorización LU (Doolittle)</h3>
-                        <p>La factorización LU descompone una matriz cuadrada A en el producto de dos matrices: una matriz triangular inferior L (con 1s en la diagonal) y una matriz triangular superior U.</p>
-                        <p>A = LU</p>
-                        <p>Utilidad:</p>
-                        <ul>
-                            <li>Resolver sistemas de ecuaciones lineales (Ax=b) de forma eficiente.</li>
-                            <li>Calcular determinantes (det(A) = det(L) * det(U) = det(U)).</li>
-                            <li>Calcular la inversa de una matriz.</li>
-                        </ul>
-                         <div class="method-info">
-                            <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Doolittle (sin pivoteo)</p>
-                            <p class="method-description">Se calculan iterativamente los elementos de L y U. Esta implementación no realiza pivoteo, por lo que puede fallar si un pivote U<sub>kk</sub> es cero.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="operations-container">
-                    <button id="luFactorizationButton" class="operation-btn lu-factorization-btn">
-                        <i class="fas fa-th-large"></i> Calcular LU
-                    </button>
-                </div>
-
-                <div class="results-section" id="luFactorizationResults">
-                    <div id="luLoader" class="loader"></div>
-                    <div class="results-container">
-                        <h2>Matriz L <button id="copyLuLResult" class="copy-btn" title="Copiar Matriz L"><i class="fas fa-copy"></i></button></h2>
-                        <div id="resultLuLMatrix" class="matrix-display"></div>
-                    </div>
-                    <div class="results-container">
-                        <h2>Matriz U <button id="copyLuUResult" class="copy-btn" title="Copiar Matriz U"><i class="fas fa-copy"></i></button></h2>
-                        <div id="resultLuUMatrix" class="matrix-display"></div>
-                    </div>
-                    
-                    <div class="steps-container">
-                        <h2>Pasos del Cálculo</h2>
-                        <div id="stepsLuDisplay" class="steps-display"></div>
-                    </div>
-
-                    <div id="errorLuDisplay" class="error-display"></div>
                 </div>
             </div>
 
@@ -523,6 +559,27 @@
                     </div>
                 </div>
 
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-gj" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Identidad
+                        </button>
+                        <button class="preset-btn-gj" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn-gj" data-preset="unique">
+                            <i class="fas fa-bullseye"></i> Solución Única
+                        </button>
+                        <button class="preset-btn-gj" data-preset="infinite">
+                            <i class="fas fa-infinity"></i> Infinitas Soluciones
+                        </button>
+                        <button class="preset-btn-gj" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+
                 <div class="operations-container">
                     <button id="solveGaussJordanButton" class="operation-btn gauss-jordan-solve-btn">
                         <i class="fas fa-play-circle"></i> Resolver Sistema con Gauss-Jordan
@@ -549,15 +606,99 @@
                 </div>
             </div>
 
-        
+            <div class="tab-content" id="lu-factorization">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixLuAContainer">
+                        <h2><i class="fas fa-table"></i> Matriz A para LU</h2>
+                        <div class="dimension-selector">
+                            <label for="dimensionLuA">Dimensión (A es N×N):</label>
+                            <select id="dimensionLuA" class="dimension-selector-lu-a">
+                                <option value="1">1×1</option>
+                                <option value="2" selected>2×2</option>
+                                <option value="3">3×3</option>
+                                <option value="4">4×4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper" id="luAMatrixWrapper">
+                            <div id="matrixLuAInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> A debe ser cuadrada. Ingresa números enteros, decimales o fracciones.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="lu-info-panel inv-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Factorización LU (Doolittle)</h3>
+                        <p>La factorización LU descompone una matriz cuadrada A en el producto de dos matrices: una matriz triangular inferior L (con 1s en la diagonal) y una matriz triangular superior U.</p>
+                        <p>A = LU</p>
+                        <p>Utilidad:</p>
+                        <ul>
+                            <li>Resolver sistemas de ecuaciones lineales (Ax=b) de forma eficiente.</li>
+                            <li>Calcular determinantes (det(A) = det(L) * det(U) = det(U)).</li>
+                            <li>Calcular la inversa de una matriz.</li>
+                        </ul>
+                         <div class="method-info">
+                            <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Doolittle (sin pivoteo)</p>
+                            <p class="method-description">Se calculan iterativamente los elementos de L y U. Esta implementación no realiza pivoteo, por lo que puede fallar si un pivote U<sub>kk</sub> es cero.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preset-container">
+                    <h3><i class="fas fa-bolt"></i> Presets</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-btn-lu" data-preset="identity">
+                            <i class="fas fa-dice-one"></i> Identidad
+                        </button>
+                        <button class="preset-btn-lu" data-preset="simple">
+                            <i class="fas fa-calculator"></i> Caso Simple
+                        </button>
+                        <button class="preset-btn-lu" data-preset="triangular">
+                            <i class="fas fa-play"></i> Triangular
+                        </button>
+                        <button class="preset-btn-lu" data-preset="diagonal">
+                            <i class="fas fa-grip-lines"></i> Diagonal
+                        </button>
+                        <button class="preset-btn-lu" data-preset="random">
+                            <i class="fas fa-random"></i> Aleatorio
+                        </button>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="luFactorizationButton" class="operation-btn lu-factorization-btn">
+                        <i class="fas fa-th-large"></i> Calcular LU
+                    </button>
+                </div>
+
+                <div class="results-section" id="luFactorizationResults">
+                    <div id="luLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Matriz L <button id="copyLuLResult" class="copy-btn" title="Copiar Matriz L"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultLuLMatrix" class="matrix-display"></div>
+                    </div>
+                    <div class="results-container">
+                        <h2>Matriz U <button id="copyLuUResult" class="copy-btn" title="Copiar Matriz U"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultLuUMatrix" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsLuDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorLuDisplay" class="error-display"></div>
+                </div>
+            </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer>
-        <p>&copy; 2025 Nicolas Vergara, Jecar Yañez, Simon Cifuentes, Yaninna Alvarez</p>
-        <p class="footer-note">Proyecto 1 - Algebra Lineal</p>
-    </footer>
+<footer>
+    <p>&copy; 2025 Nicolas Vergara, Jecar Yañez, Simon Cifuentes, Yaninna Alvarez</p>
+    <p class="footer-note">Proyecto 1 - Algebra Lineal</p>
+</footer>
 
-    <script src="/static/script.js?v=20250517"></script>
+<script src="/static/script.js?v=20250518"></script>
 </body>
 </html> 
