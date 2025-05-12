@@ -92,4 +92,4 @@ def validar_vector(vector: List[Union[int, float, str]], nombre_vector: str = "E
     
     return longitud_vector, None
 
-# TODO: Considerar añadir validación para matrices de escalares individuales si se decide soportar (e.g., [[2]] * [[3,4]]) 
+# TODO: Considerar añadir validación para matrices de escalares individuales si se decide soportar (e.g., [[2]] * [[3,4]])
