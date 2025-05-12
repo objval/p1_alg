@@ -11,13 +11,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- INICIO: Encabezado de la Página -->
     <header>
         <h1>Calculadora de Álgebra Lineal <span class="version">v1.0</span></h1>
         <p class="subtitle">MAT1187 - Universidad</p>
     </header>
+    <!-- FIN: Encabezado de la Página -->
 
+    <!-- INICIO: Contenido Principal -->
     <main>
+        <!-- INICIO: Contenedor de Pestañas -->
         <div class="tabs-container">
+            <!-- INICIO: Navegación de Pestañas -->
             <div class="tabs">
                 <button class="tab-button active" data-tab="basic-ops">
                     <i class="fas fa-plus-minus"></i> <span class="tab-text">Suma/Resta</span>
@@ -45,8 +50,11 @@
             <button class="tab-overflow-menu" title="Más operaciones">
                 <i class="fas fa-ellipsis-h"></i>
             </button>
+            <!-- FIN: Navegación de Pestañas -->
 
+            <!-- INICIO: Contenido Pestaña Suma/Resta -->
             <div class="tab-content active" id="basic-ops">
+                <!-- INICIO: Configuración de Matrices (Suma/Resta) -->
                 <div class="matrix-setup-container">
                     <div class="matrix-container" id="matrixAContainer">
                         <h2><i class="fas fa-table"></i> Matriz A</h2>
@@ -100,8 +108,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matrices (Suma/Resta) -->
                 <div id="errorDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (Suma/Resta) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -122,7 +132,9 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Suma/Resta) -->
 
+                <!-- INICIO: Botones de Operaciones (Suma/Resta) -->
                 <div class="operations-container">
                     <button id="addButton" class="operation-btn">
                         <i class="fas fa-plus"></i> Sumar (A + B)
@@ -131,7 +143,9 @@
                         <i class="fas fa-minus"></i> Restar (A - B)
                     </button>
                 </div>
+                <!-- FIN: Botones de Operaciones (Suma/Resta) -->
 
+                <!-- INICIO: Sección de Resultados (Suma/Resta) -->
                 <div class="results-section">
                     <div id="loader" class="loader"></div>
                     <div class="results-container">
@@ -143,11 +157,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Suma/Resta) -->
             </div>
+            <!-- FIN: Contenido Pestaña Suma/Resta -->
 
+            <!-- INICIO: Contenido Pestaña Multiplicación -->
             <div class="tab-content" id="multiplication">
+                <!-- INICIO: Configuración de Matrices (Multiplicación) -->
                 <div class="matrix-setup-container">
                     <div class="matrix-container" id="matrixMultAContainer">
                         <h2><i class="fas fa-table"></i> Matriz A</h2>
@@ -201,12 +218,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matrices (Multiplicación) -->
                 <div id="errorMultDisplay" class="error-display"></div>
 
                 <div class="dimension-hint" id="multiplicationDimensionHint">
                     <i class="fas fa-info-circle"></i>
                     <span>Para multiplicar A×B: las columnas de A (2) deben ser iguales a las filas de B (2)</span>
                 </div>
+                <!-- INICIO: Presets (Multiplicación) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -227,15 +246,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Multiplicación) -->
                 
-                
-
+                <!-- INICIO: Botón de Operación (Multiplicación) -->
                 <div class="operations-container">
                     <button id="multiplyButton" class="operation-btn multiply-btn">
                         <i class="fas fa-times"></i> Multiplicar (A × B)
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (Multiplicación) -->
 
+                <!-- INICIO: Sección de Resultados (Multiplicación) -->
                 <div class="results-section" id="multiplicationResults">
                     <div id="multiplicationLoader" class="loader"></div>
                     <div class="results-container">
@@ -247,11 +268,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsMultDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Multiplicación) -->
             </div>
+            <!-- FIN: Contenido Pestaña Multiplicación -->
 
+            <!-- INICIO: Contenido Pestaña Determinante -->
             <div class="tab-content" id="determinant">
+                <!-- INICIO: Configuración de Matriz e Información (Determinante) -->
                 <div class="matrix-setup-container">
                     <div class="matrix-container" id="matrixDetContainer">
                         <h2><i class="fas fa-table"></i> Matriz</h2>
@@ -288,8 +312,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matriz e Información (Determinante) -->
                 <div id="errorDetDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (Determinante) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -310,13 +336,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Determinante) -->
 
+                <!-- INICIO: Botón de Operación (Determinante) -->
                 <div class="operations-container">
                     <button id="determinantButton" class="operation-btn det-btn">
                         <i class="fas fa-calculator"></i> Calcular Determinante
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (Determinante) -->
 
+                <!-- INICIO: Sección de Resultados (Determinante) -->
                 <div class="results-section" id="determinantResults">
                     <div id="determinantLoader" class="loader"></div>
                     <div class="results-container">
@@ -328,11 +358,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsDetDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Determinante) -->
             </div>
+            <!-- FIN: Contenido Pestaña Determinante -->
 
+            <!-- INICIO: Contenido Pestaña Inversa -->
             <div class="tab-content" id="inverse">
+                <!-- INICIO: Configuración de Matriz e Información (Inversa) -->
                 <div class="matrix-setup-container">
                     <div class="matrix-container" id="matrixInvContainer">
                         <h2><i class="fas fa-table"></i> Matriz para Inversa</h2>
@@ -367,8 +400,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matriz e Información (Inversa) -->
                 <div id="errorInvDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (Inversa) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -389,13 +424,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Inversa) -->
 
+                <!-- INICIO: Botón de Operación (Inversa) -->
                 <div class="operations-container">
                     <button id="inverseButton" class="operation-btn inv-btn">
                         <i class="fas fa-undo"></i> Calcular Inversa
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (Inversa) -->
 
+                <!-- INICIO: Sección de Resultados (Inversa) -->
                 <div class="results-section" id="inverseResults">
                     <div id="inverseLoader" class="loader"></div>
                     <div class="results-container">
@@ -407,11 +446,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsInvDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Inversa) -->
             </div>
+            <!-- FIN: Contenido Pestaña Inversa -->
 
+            <!-- INICIO: Contenido Pestaña Eliminación Gaussiana -->
             <div class="tab-content" id="gaussian-elimination">
+                <!-- INICIO: Configuración de Matriz/Vector e Información (Gaussiana) -->
                 <div class="matrix-setup-container">
                     <div class="gauss-input-row">
                         <div class="matrix-container" id="matrixGaussAContainer">
@@ -463,8 +505,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matriz/Vector e Información (Gaussiana) -->
                 <div id="errorGaussianDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (Gaussiana) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -485,13 +529,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Gaussiana) -->
 
+                <!-- INICIO: Botón de Operación (Gaussiana) -->
                 <div class="operations-container">
                     <button id="solveGaussianButton" class="operation-btn gauss-solve-btn">
                         <i class="fas fa-play-circle"></i> Resolver Sistema (Ax=b)
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (Gaussiana) -->
 
+                <!-- INICIO: Sección de Resultados (Gaussiana) -->
                 <div class="results-section" id="gaussianResults">
                     <div id="gaussianLoader" class="loader"></div>
                     <div class="results-container">
@@ -503,11 +551,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsGaussianDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Gaussiana) -->
             </div>
+            <!-- FIN: Contenido Pestaña Eliminación Gaussiana -->
 
+            <!-- INICIO: Contenido Pestaña Gauss-Jordan -->
             <div class="tab-content" id="gauss-jordan">
+                <!-- INICIO: Configuración de Matriz/Vector e Información (Gauss-Jordan) -->
                 <div class="matrix-setup-container">
                     <div class="gauss-input-row">
                         <div class="matrix-container" id="matrixGaussJordanAContainer">
@@ -559,8 +610,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matriz/Vector e Información (Gauss-Jordan) -->
                 <div id="errorGaussJordanDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (Gauss-Jordan) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -581,13 +634,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (Gauss-Jordan) -->
 
+                <!-- INICIO: Botón de Operación (Gauss-Jordan) -->
                 <div class="operations-container">
                     <button id="solveGaussJordanButton" class="operation-btn gauss-jordan-solve-btn">
                         <i class="fas fa-play-circle"></i> Resolver Sistema con Gauss-Jordan
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (Gauss-Jordan) -->
 
+                <!-- INICIO: Sección de Resultados (Gauss-Jordan) -->
                 <div class="results-section" id="gaussJordanResults">
                     <div id="gaussJordanLoader" class="loader"></div>
                     <div class="results-container">
@@ -603,11 +660,14 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsGaussJordanDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
+                <!-- FIN: Sección de Resultados (Gauss-Jordan) -->
             </div>
+            <!-- FIN: Contenido Pestaña Gauss-Jordan -->
 
+            <!-- INICIO: Contenido Pestaña Factorización LU -->
             <div class="tab-content" id="lu-factorization">
+                <!-- INICIO: Configuración de Matriz e Información (LU) -->
                 <div class="matrix-setup-container">
                     <div class="matrix-container" id="matrixLuAContainer">
                         <h2><i class="fas fa-table"></i> Matriz A para LU</h2>
@@ -628,7 +688,7 @@
                         </div>
                     </div>
                     
-                    <div class="lu-info-panel inv-info-panel">
+                    <div class="lu-info-panel inv-info-panel"> <!-- Reutiliza clase inv-info-panel para estilo similar -->
                         <h3><i class="fas fa-info-circle"></i> Factorización LU (Doolittle)</h3>
                         <p>La factorización LU descompone una matriz cuadrada A en el producto de dos matrices: una matriz triangular inferior L (con 1s en la diagonal) y una matriz triangular superior U.</p>
                         <p>A = LU</p>
@@ -644,8 +704,10 @@
                         </div>
                     </div>
                 </div>
+                <!-- FIN: Configuración de Matriz e Información (LU) -->
                 <div id="errorLuDisplay" class="error-display"></div>
 
+                <!-- INICIO: Presets (LU) -->
                 <div class="preset-container">
                     <h3><i class="fas fa-bolt"></i> Presets</h3>
                     <div class="preset-buttons">
@@ -666,13 +728,17 @@
                         </button>
                     </div>
                 </div>
+                <!-- FIN: Presets (LU) -->
 
+                <!-- INICIO: Botón de Operación (LU) -->
                 <div class="operations-container">
                     <button id="luFactorizationButton" class="operation-btn lu-factorization-btn">
                         <i class="fas fa-th-large"></i> Calcular LU
                     </button>
                 </div>
+                <!-- FIN: Botón de Operación (LU) -->
 
+                <!-- INICIO: Sección de Resultados (LU) -->
                 <div class="results-section" id="luFactorizationResults">
                     <div id="luLoader" class="loader"></div>
                     <div class="results-container">
@@ -688,18 +754,22 @@
                         <h2>Pasos del Cálculo</h2>
                         <div id="stepsLuDisplay" class="steps-display"></div>
                     </div>
-
                 </div>
-                </div>
+                <!-- FIN: Sección de Resultados (LU) -->
             </div>
+            <!-- FIN: Contenido Pestaña Factorización LU -->
         </div>
+        <!-- FIN: Contenedor de Pestañas -->
     </main>
+    <!-- FIN: Contenido Principal -->
 
+    <!-- INICIO: Pie de Página -->
     <footer>
     <p>&copy; 2025 Nicolas Vergara, Jecar Yañez, Simon Cifuentes, Yaninna Alvarez</p>
     <p class="footer-note">Proyecto 1 - Algebra Lineal</p>
     </footer>
+    <!-- FIN: Pie de Página -->
 
 <script src="/static/script.js?v=20250512"></script>
 </body>
-</html> 
+</html>

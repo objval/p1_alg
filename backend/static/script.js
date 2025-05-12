@@ -1,25 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // DOM Elements - Matrix Inputs
+    // Elementos DOM - Entradas de Matriz
     const matrixAInputs = document.getElementById('matrixAInputs');
     const matrixBInputs = document.getElementById('matrixBInputs');
     const matrixMultAInputs = document.getElementById('matrixMultAInputs');
     const matrixMultBInputs = document.getElementById('matrixMultBInputs');
     const matrixDetInputs = document.getElementById('matrixDetInputs');
-    const matrixInvInputs = document.getElementById('matrixInvInputs'); // Added for Inverse
-    const matrixGaussAInputs = document.getElementById('matrixGaussAInputs'); // For Gaussian Elimination Matrix A
-    const vectorGaussBInputs = document.getElementById('vectorGaussBInputs'); // For Gaussian Elimination Vector b
-    const matrixGaussJordanAInputs = document.getElementById('matrixGaussJordanAInputs'); // For Gauss-Jordan Elimination Matrix A
-    const vectorGaussJordanBInputs = document.getElementById('vectorGaussJordanBInputs'); // For Gauss-Jordan Elimination Vector b
-    const matrixLuAInputs = document.getElementById('matrixLuAInputs'); // For LU Factorization Matrix A
+    const matrixInvInputs = document.getElementById('matrixInvInputs'); // Añadido para Inversa
+    const matrixGaussAInputs = document.getElementById('matrixGaussAInputs'); // Para Matriz A de Eliminación Gaussiana
+    const vectorGaussBInputs = document.getElementById('vectorGaussBInputs'); // Para Vector b de Eliminación Gaussiana
+    const matrixGaussJordanAInputs = document.getElementById('matrixGaussJordanAInputs'); // Para Matriz A de Eliminación Gauss-Jordan
+    const vectorGaussJordanBInputs = document.getElementById('vectorGaussJordanBInputs'); // Para Vector b de Eliminación Gauss-Jordan
+    const matrixLuAInputs = document.getElementById('matrixLuAInputs'); // Para Matriz A de Factorización LU
     
-    // Additional check to ensure determinant inputs element is found
+    // Verificación adicional para asegurar que se encuentre el elemento de entradas del determinante
     if (!matrixDetInputs) {
         console.error('matrixDetInputs element not found in DOM');
-        // Try finding it with a different selector
+        // Intentar encontrarlo con un selector diferente
         const detInputs = document.querySelector('#determinant .matrix-inputs');
         if (detInputs) {
-            detInputs.id = 'matrixDetInputs'; // Ensure it has the correct ID
+            detInputs.id = 'matrixDetInputs'; // Asegurar que tenga el ID correcto
         }
     }
     
@@ -32,112 +32,112 @@ document.addEventListener('DOMContentLoaded', () => {
     const rowsMultBSelector = document.getElementById('rowsMultB');
     const colsMultBSelector = document.getElementById('colsMultB');
     const dimensionDetSelector = document.getElementById('dimensionDet');
-    const dimensionInvSelector = document.getElementById('dimensionInv'); // Added for Inverse
-    const dimensionGaussASelector = document.getElementById('dimensionGaussA'); // For Gaussian A
-    const dimensionGaussBDisplay = document.getElementById('dimensionGaussBDisplay'); // To display b's dimension
-    const dimensionGaussJordanASelector = document.getElementById('dimensionGaussJordanA'); // For Gauss-Jordan A
-    const dimensionGaussJordanBDisplay = document.getElementById('dimensionGaussJordanBDisplay'); // To display Gauss-Jordan b's dimension
-    const dimensionLuASelector = document.getElementById('dimensionLuA'); // For LU Factorization A
+    const dimensionInvSelector = document.getElementById('dimensionInv'); // Añadido para Inversa
+    const dimensionGaussASelector = document.getElementById('dimensionGaussA'); // Para Gaussiana A
+    const dimensionGaussBDisplay = document.getElementById('dimensionGaussBDisplay'); // Para mostrar la dimensión de b
+    const dimensionGaussJordanASelector = document.getElementById('dimensionGaussJordanA'); // Para Gauss-Jordan A
+    const dimensionGaussJordanBDisplay = document.getElementById('dimensionGaussJordanBDisplay'); // Para mostrar la dimensión de b en Gauss-Jordan
+    const dimensionLuASelector = document.getElementById('dimensionLuA'); // Para Matriz A de Factorización LU
 
-    // DOM Elements - Operation Buttons
+    // Elementos DOM - Botones de Operación
     const addButton = document.getElementById('addButton');
     const subtractButton = document.getElementById('subtractButton');
     const multiplyButton = document.getElementById('multiplyButton');
     const determinantButton = document.getElementById('determinantButton');
-    const inverseButton = document.getElementById('inverseButton'); // Added for Inverse
-    const solveGaussianButton = document.getElementById('solveGaussianButton'); // For Gaussian Elimination
-    const solveGaussJordanButton = document.getElementById('solveGaussJordanButton'); // For Gauss-Jordan Elimination
-    const luFactorizationButton = document.getElementById('luFactorizationButton'); // For LU Factorization
+    const inverseButton = document.getElementById('inverseButton'); // Añadido para Inversa
+    const solveGaussianButton = document.getElementById('solveGaussianButton'); // Para Eliminación Gaussiana
+    const solveGaussJordanButton = document.getElementById('solveGaussJordanButton'); // Para Eliminación Gauss-Jordan
+    const luFactorizationButton = document.getElementById('luFactorizationButton'); // Para Factorización LU
 
-    // DOM Elements - Results Display
+    // Elementos DOM - Visualización de Resultados
     const resultMatrixDiv = document.getElementById('resultMatrix');
     const resultMultMatrixDiv = document.getElementById('resultMultMatrix');
-    const resultDeterminantDiv = document.getElementById('resultDeterminant'); // Corrected ID from determinantValueDiv
-    const resultInverseMatrixDiv = document.getElementById('resultInverseMatrix'); // Added for Inverse
-    const resultGaussianSolutionDiv = document.getElementById('resultGaussianSolution'); // For Gaussian Elimination
-    const resultGaussJordanRrefDiv = document.getElementById('resultGaussJordanRref'); // For Gauss-Jordan RREF
-    const resultGaussJordanSolutionDiv = document.getElementById('resultGaussJordanSolution'); // For Gauss-Jordan Solution
-    const resultLuLMatrixDiv = document.getElementById('resultLuLMatrix'); // For LU Factorization Matrix L
-    const resultLuUMatrixDiv = document.getElementById('resultLuUMatrix'); // For LU Factorization Matrix U
+    const resultDeterminantDiv = document.getElementById('resultDeterminant'); // ID corregido desde determinantValueDiv
+    const resultInverseMatrixDiv = document.getElementById('resultInverseMatrix'); // Añadido para Inversa
+    const resultGaussianSolutionDiv = document.getElementById('resultGaussianSolution'); // Para Eliminación Gaussiana
+    const resultGaussJordanRrefDiv = document.getElementById('resultGaussJordanRref'); // Para RREF de Gauss-Jordan
+    const resultGaussJordanSolutionDiv = document.getElementById('resultGaussJordanSolution'); // Para Solución de Gauss-Jordan
+    const resultLuLMatrixDiv = document.getElementById('resultLuLMatrix'); // Para Matriz L de Factorización LU
+    const resultLuUMatrixDiv = document.getElementById('resultLuUMatrix'); // Para Matriz U de Factorización LU
     const stepsDisplay = document.getElementById('stepsDisplay');
     const stepsMultDisplay = document.getElementById('stepsMultDisplay');
     const stepsDetDisplay = document.getElementById('stepsDetDisplay');
-    const stepsInvDisplay = document.getElementById('stepsInvDisplay'); // Added for Inverse
-    const stepsGaussianDisplay = document.getElementById('stepsGaussianDisplay'); // For Gaussian Elimination
-    const stepsGaussJordanDisplay = document.getElementById('stepsGaussJordanDisplay'); // For Gauss-Jordan
-    const stepsLuDisplay = document.getElementById('stepsLuDisplay'); // For LU Factorization
+    const stepsInvDisplay = document.getElementById('stepsInvDisplay'); // Añadido para Inversa
+    const stepsGaussianDisplay = document.getElementById('stepsGaussianDisplay'); // Para Eliminación Gaussiana
+    const stepsGaussJordanDisplay = document.getElementById('stepsGaussJordanDisplay'); // Para Gauss-Jordan
+    const stepsLuDisplay = document.getElementById('stepsLuDisplay'); // Para Factorización LU
     const errorDisplay = document.getElementById('errorDisplay');
     const errorMultDisplay = document.getElementById('errorMultDisplay');
     const errorDetDisplay = document.getElementById('errorDetDisplay');
-    const errorInvDisplay = document.getElementById('errorInvDisplay'); // Added for Inverse
-    const errorGaussianDisplay = document.getElementById('errorGaussianDisplay'); // For Gaussian Elimination
-    const errorGaussJordanDisplay = document.getElementById('errorGaussJordanDisplay'); // For Gauss-Jordan
-    const errorLuDisplay = document.getElementById('errorLuDisplay'); // For LU Factorization
+    const errorInvDisplay = document.getElementById('errorInvDisplay'); // Añadido para Inversa
+    const errorGaussianDisplay = document.getElementById('errorGaussianDisplay'); // Para Eliminación Gaussiana
+    const errorGaussJordanDisplay = document.getElementById('errorGaussJordanDisplay'); // Para Gauss-Jordan
+    const errorLuDisplay = document.getElementById('errorLuDisplay'); // Para Factorización LU
     const loader = document.getElementById('loader');
     const multiplicationLoader = document.getElementById('multiplicationLoader');
     const determinantLoader = document.getElementById('determinantLoader');
-    const inverseLoader = document.getElementById('inverseLoader'); // Added for Inverse
-    const gaussianLoader = document.getElementById('gaussianLoader'); // For Gaussian Elimination
-    const gaussJordanLoader = document.getElementById('gaussJordanLoader'); // For Gauss-Jordan
-    const luLoader = document.getElementById('luLoader'); // For LU Factorization
+    const inverseLoader = document.getElementById('inverseLoader'); // Añadido para Inversa
+    const gaussianLoader = document.getElementById('gaussianLoader'); // Para Eliminación Gaussiana
+    const gaussJordanLoader = document.getElementById('gaussJordanLoader'); // Para Gauss-Jordan
+    const luLoader = document.getElementById('luLoader'); // Para Factorización LU
     const multiplicationDimensionHint = document.getElementById('multiplicationDimensionHint');
     
-    // DOM Elements - UI Controls
+    // Elementos DOM - Controles de UI
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     const copyResultBtn = document.getElementById('copyResult');
     const copyMultResultBtn = document.getElementById('copyMultResult');
     const copyDetResultBtn = document.getElementById('copyDetResult');
-    const copyInvResultBtn = document.getElementById('copyInvResult'); // Added for Inverse
-    const copyGaussianResultBtn = document.getElementById('copyGaussianResult'); // For Gaussian Elimination
-    const copyGaussJordanRrefResultBtn = document.getElementById('copyGaussJordanRrefResult'); // For Gauss-Jordan RREF 
-    const copyGaussJordanSolutionResultBtn = document.getElementById('copyGaussJordanSolutionResult'); // For Gauss-Jordan Solution
-    const copyLuLResultBtn = document.getElementById('copyLuLResult'); // For LU Matrix L
-    const copyLuUResultBtn = document.getElementById('copyLuUResult'); // For LU Matrix U
+    const copyInvResultBtn = document.getElementById('copyInvResult'); // Añadido para Inversa
+    const copyGaussianResultBtn = document.getElementById('copyGaussianResult'); // Para Eliminación Gaussiana
+    const copyGaussJordanRrefResultBtn = document.getElementById('copyGaussJordanRrefResult'); // Para RREF de Gauss-Jordan 
+    const copyGaussJordanSolutionResultBtn = document.getElementById('copyGaussJordanSolutionResult'); // Para Solución de Gauss-Jordan
+    const copyLuLResultBtn = document.getElementById('copyLuLResult'); // Para Matriz L de LU
+    const copyLuUResultBtn = document.getElementById('copyLuUResult'); // Para Matriz U de LU
     
-    // For 3D effect on matrices
+    // Para efecto 3D en matrices
     const matrixWrappers = document.querySelectorAll('.matrix-wrapper');
 
-    // Helper function to convert digit to Unicode subscript
+    // Función auxiliar para convertir dígito a subíndice Unicode
     function toSubscript(digit) {
         const subscripts = "₀₁₂₃₄₅₆₇₈₉";
         return String(digit).split('').map(char => subscripts[parseInt(char)] || char).join('');
     }
 
-    // Initialize UI
+    // Inicializar UI
     initializeUI();
     
     function initializeUI() {
-        // Initialize tabs
+        // Inicializar pestañas
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Skip if clicking on an already active tab
+                // Omitir si se hace clic en una pestaña ya activa
                 if (button.classList.contains('active')) return;
                 
-                // Remove active class from all tabs
+                // Eliminar clase activa de todas las pestañas
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 
-                // Add active class to clicked tab
+                // Añadir clase activa a la pestaña clicada
                 button.classList.add('active');
                 
-                // Show corresponding content
+                // Mostrar contenido correspondiente
                 const tabId = button.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
 
-                // If switching to multiplication tab, update dimension hints
+                // Si se cambia a la pestaña de multiplicación, actualizar pistas de dimensión
                 if (tabId === 'multiplication') {
                     updateMultiplicationDimensionHint();
-                    // Add 3D effect to matrix wrappers
+                    // Añadir efecto 3D a los contenedores de matriz
                     document.querySelectorAll('#multiplication .matrix-wrapper').forEach(wrapper => {
                         wrapper.classList.add('mult-3d');
                     });
                 }
                 
-                // If switching to determinant tab, apply 3D effect if applicable
+                // Si se cambia a la pestaña de determinante, aplicar efecto 3D si es aplicable
                 if (tabId === 'determinant') {
                     document.querySelectorAll('#determinant .matrix-wrapper').forEach(wrapper => {
-                        // wrapper.classList.add('det-3d'); // Example: can add specific 3d class if needed
+                        // wrapper.classList.add('det-3d'); // Ejemplo: se puede añadir clase 3D específica si es necesario
                     });
                     
                     const detDimension = parseInt(dimensionDetSelector.value);
@@ -146,10 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // If switching to inverse tab, initialize inputs
+                // Si se cambia a la pestaña de inversa, inicializar entradas
                 if (tabId === 'inverse') {
                     document.querySelectorAll('#inverse .matrix-wrapper').forEach(wrapper => {
-                        // wrapper.classList.add('inv-3d'); // Example: can add specific 3d class if needed
+                        // wrapper.classList.add('inv-3d'); // Ejemplo: se puede añadir clase 3D específica si es necesario
                     });
                     const invDimension = parseInt(dimensionInvSelector.value);
                     if (matrixInvInputs && matrixInvInputs.childElementCount === 0) {
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // If switching to Gaussian elimination tab, initialize inputs
+                // Si se cambia a la pestaña de eliminación gaussiana, inicializar entradas
                 if (tabId === 'gaussian-elimination') {
                     const gaussDim = parseInt(dimensionGaussASelector.value);
                     if (matrixGaussAInputs && matrixGaussAInputs.childElementCount === 0) {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateGaussianDimensionDisplay();
                 }
                 
-                // If switching to Gauss-Jordan tab, initialize inputs
+                // Si se cambia a la pestaña de Gauss-Jordan, inicializar entradas
                 if (tabId === 'gauss-jordan') {
                     const gaussJordanDim = parseInt(dimensionGaussJordanASelector.value);
                     if (matrixGaussJordanAInputs && matrixGaussJordanAInputs.childElementCount === 0) {
@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateGaussJordanDimensionDisplay();
                 }
 
-                // If switching to LU factorization tab, initialize inputs
+                // Si se cambia a la pestaña de factorización LU, inicializar entradas
                 if (tabId === 'lu-factorization') {
                     const luDim = parseInt(dimensionLuASelector.value);
                     if (matrixLuAInputs && matrixLuAInputs.childElementCount === 0) {
@@ -191,10 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         
-        // Always use dark theme
+        // Usar siempre tema oscuro
         document.body.classList.add('dark-theme');
         
-        // Initialize copy buttons
+        // Inicializar botones de copiar
         if (copyResultBtn) {
             copyResultBtn.addEventListener('click', () => copyResultToClipboard(resultMatrixDiv, copyResultBtn));
         }
@@ -202,12 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
             copyMultResultBtn.addEventListener('click', () => copyResultToClipboard(resultMultMatrixDiv, copyMultResultBtn));
         }
         if (copyDetResultBtn) {
-            // Assuming determinant result is displayed in resultDeterminantDiv now, not a scalar specific div
-            // If resultDeterminantDiv contains a table, use copyResultToClipboard
-            // If it's a scalar value directly in resultDeterminantDiv, a modified copyScalar might be needed
+            // Asumiendo que el resultado del determinante se muestra ahora en resultDeterminantDiv, no en un div específico para escalares
+            // Si resultDeterminantDiv contiene una tabla, usar copyResultToClipboard
+            // Si es un valor escalar directamente en resultDeterminantDiv, podría necesitarse un copyScalar modificado
             copyDetResultBtn.addEventListener('click', () => copyScalarResultToClipboard(resultDeterminantDiv.textContent, copyDetResultBtn)); 
         }
-        if (copyInvResultBtn) { // Added for Inverse
+        if (copyInvResultBtn) { // Añadido para Inversa
             copyInvResultBtn.addEventListener('click', () => copyResultToClipboard(resultInverseMatrixDiv, copyInvResultBtn));
         }
         if (copyGaussianResultBtn) {

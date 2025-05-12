@@ -17,47 +17,47 @@ def _calculate_determinant_gaussian(matrix_input: List[List[Fraction]], steps_re
     """
     # Crear una copia profunda para evitar modificar la lista de listas original si se pasa por referencia
     matrix = [[val for val in row] for row in matrix_input]
-    n = len(matrix)
-    determinant_multiplier = Fraction(1) # Para tener en cuenta los intercambios de filas
+    n = len(matrix) # Obtiene la dimensión de la matriz (asumiendo que es cuadrada)
+    determinant_multiplier = Fraction(1) # Inicializa el multiplicador del determinante para los intercambios de filas
 
     steps_ref.append("Transformando la matriz a forma triangular superior mediante eliminación Gaussiana:")
 
     for h in range(n):  # h es el índice de la fila y columna del pivote actual
         # Encontrar pivote para esta columna
-        pivot_row = -1
-        for i in range(h, n):
+        pivot_row = -1 # Inicializa el índice de la fila pivote
+        for i in range(h, n): # Busca una fila con un valor no nulo en la columna h, desde la fila h hasta el final
             if matrix[i][h] != 0:
-                pivot_row = i
+                pivot_row = i # Si encuentra un valor no nulo, actualiza el índice de la fila pivote
                 break
         
         if pivot_row == -1:
             # Si no hay pivote en esta columna (todos son ceros debajo/en la diagonal), el determinante es 0
             steps_ref.append(f"Columna {h+1} (debajo o en la diagonal) no tiene pivote (todos son cero).")
             steps_ref.append("El determinante es 0.")
-            return Fraction(0)
+            return Fraction(0) # Retorna 0 como el determinante
 
         # Intercambiar filas si es necesario para mover el pivote a la diagonal
         if pivot_row != h:
-            matrix[h], matrix[pivot_row] = matrix[pivot_row], matrix[h]
-            determinant_multiplier *= -1
+            matrix[h], matrix[pivot_row] = matrix[pivot_row], matrix[h] # Intercambia la fila actual con la fila pivote
+            determinant_multiplier *= -1 # Actualiza el multiplicador del determinante (cambia de signo)
             steps_ref.append(f"Intercambiando Fila {h+1} con Fila {pivot_row+1} para obtener un pivote no nulo en A({h+1},{h+1}).")
             steps_ref.append(f"  (Multiplicador del determinante actual: {format_fraction_output(determinant_multiplier)})")
             steps_ref.extend(format_matrix_for_steps(matrix, "Matriz después del intercambio"))
 
         # Eliminar otras filas
         # El elemento pivote es matrix[h][h]
-        pivot_element = matrix[h][h]
+        pivot_element = matrix[h][h] # Obtiene el valor del elemento pivote
         steps_ref.append(f"Pivote actual A({h+1},{h+1}) = {format_fraction_output(pivot_element)}")
 
         for i in range(h + 1, n): # Para todas las filas debajo del pivote
             if matrix[i][h] != 0: # Si el elemento debajo del pivote no es cero
-                factor = matrix[i][h] / pivot_element
-                operation_description = f"F{i+1} = F{i+1} - ({format_fraction_output(factor)}) * F{h+1}"
+                factor = matrix[i][h] / pivot_element # Calcula el factor para eliminar el elemento
+                operation_description = f"F{i+1} = F{i+1} - ({format_fraction_output(factor)}) * F{h+1}" # Describe la operación de fila
                 steps_ref.append(f"Eliminando elemento A({i+1},{h+1}) usando la operación: {operation_description}")
                 
                 # Aplicar operación de fila
                 for j in range(h, n): # Iterar a través de las columnas de la fila actual
-                    matrix[i][j] -= factor * matrix[h][j]
+                    matrix[i][j] -= factor * matrix[h][j] # Aplica la operación de fila para eliminar el elemento
                 
                 steps_ref.extend(format_matrix_for_steps(matrix, "Matriz después de la operación"))
 
@@ -65,13 +65,13 @@ def _calculate_determinant_gaussian(matrix_input: List[List[Fraction]], steps_re
     steps_ref.append("La matriz está en forma triangular superior.")
     steps_ref.extend(format_matrix_for_steps(matrix, "Matriz triangular superior final"))
 
-    determinant_value = determinant_multiplier
+    determinant_value = determinant_multiplier # Inicializa el valor del determinante con el multiplicador
     diag_product_str_parts = []
     for i in range(n):
-        determinant_value *= matrix[i][i]
-        diag_product_str_parts.append(format_fraction_output(matrix[i][i]))
+        determinant_value *= matrix[i][i] # Multiplica el determinante por el elemento diagonal
+        diag_product_str_parts.append(format_fraction_output(matrix[i][i])) # Guarda el elemento diagonal formateado para mostrar
     
-    diag_product_str = " * ".join(diag_product_str_parts)
+    diag_product_str = " * ".join(diag_product_str_parts) # Une los elementos diagonales formateados con " * "
     if n > 0 :
         steps_ref.append(f"Calculando el determinante como el producto de los elementos de la diagonal multiplicados por el factor de intercambio de filas ({format_fraction_output(determinant_multiplier)}):")
         steps_ref.append(f"  det(A) = {format_fraction_output(determinant_multiplier)} * ({diag_product_str})")
