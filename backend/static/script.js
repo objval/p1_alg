@@ -462,9 +462,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 input.classList.add('matrix-cell');
                 
                 let displayPrefix = matrixName;
-                if (matrixName === 'Agauss' || matrixName === 'A') {
+                if (matrixName === 'Agauss' || matrixName === 'A' || matrixName === 'Agj') {
                     displayPrefix = 'A';
-                } else if (matrixName === 'B') {
+                } else if (matrixName === 'Bgauss' || matrixName === 'B' || matrixName === 'bgj') {
                     displayPrefix = 'B';
                 } else if (matrixName === 'Det' || matrixName === 'Inv') {
                     displayPrefix = 'M';
@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.type = 'text';
             input.classList.add('matrix-cell'); // Reuse matrix-cell styling
             
-            if (vectorNamePrefix === 'bgauss') {
+            if (vectorNamePrefix === 'bgauss' || vectorNamePrefix === 'bgj') {
                 input.placeholder = `b${toSubscript(i + 1)}`;
             } else {
                 input.placeholder = `${vectorNamePrefix}${i + 1}`;
