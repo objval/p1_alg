@@ -1,0 +1,1245 @@
+:root {
+    /* Modern Dark Theme Colors */
+    --primary-color: #6c5ce7;
+    --primary-light: #a29bfe;
+    --primary-dark: #5341d6;
+    --accent-color: #ff6b81;
+    --accent-light: #ff8c9e;
+    --accent-secondary: #00d2d3;
+    --text-color: #f1f1f1;
+    --text-light: #ccc;
+    --text-muted: #888;
+    --bg-color: #181818;
+    --bg-light: #222;
+    --bg-lighter: #2a2a2a;
+    --bg-dark: #121212;
+    --border-color: #333;
+    --success-color: #00b894;
+    --warning-color: #fdcb6e;
+    --error-color: #ff7675;
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --border-radius: 8px;
+    --matrix-bracket-color: var(--primary-light);
+}
+
+.light-theme {
+    --primary-color: #6c5ce7;
+    --primary-light: #a29bfe;
+    --primary-dark: #5341d6;
+    --accent-color: #ff6b81;
+    --accent-light: #ff8c9e;
+    --accent-secondary: #00d2d3;
+    --text-color: #333;
+    --text-light: #555;
+    --text-muted: #888;
+    --bg-color: #f8f9fa;
+    --bg-light: #ffffff;
+    --bg-lighter: #f1f3f5;
+    --bg-dark: #e9ecef;
+    --border-color: #dee2e6;
+    --success-color: #00b894;
+    --warning-color: #fdcb6e;
+    --error-color: #ff7675;
+    --matrix-bracket-color: var(--primary-color);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    transition: var(--transition);
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 10;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.version {
+    font-size: 0.9rem;
+    vertical-align: super;
+    background-color: var(--accent-color);
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    font-weight: normal;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.subtitle {
+    margin-top: 5px;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+main {
+    flex: 1;
+    padding: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 95%;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: var(--bg-light);
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 2px solid var(--primary-light);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--shadow-lg);
+    background-color: var(--primary-light);
+    color: var(--bg-dark);
+}
+
+.theme-toggle i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.theme-toggle:hover i {
+    color: white;
+}
+
+.theme-toggle .fa-sun {
+    display: none;
+}
+
+body.light-theme .theme-toggle .fa-moon {
+    display: none;
+}
+
+body.light-theme .theme-toggle .fa-sun {
+    display: block;
+}
+
+/* Tabs */
+.tabs-container {
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.tabs {
+    display: flex;
+    background: linear-gradient(to right, var(--bg-dark), var(--bg-light));
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-button {
+    padding: 15px 22px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: var(--transition);
+    position: relative;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+}
+
+.tab-button:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-secondary));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 3px 3px 0 0;
+}
+
+.tab-button:hover {
+    color: var(--primary-light);
+    background-color: rgba(108, 92, 231, 0.1);
+}
+
+.tab-button.active {
+    color: var(--primary-light);
+    background-color: rgba(108, 92, 231, 0.15);
+}
+
+.tab-button.active:after {
+    transform: scaleX(1);
+}
+
+.tab-content {
+    display: none;
+    padding: 25px;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* WIP Badge */
+.wip-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 0.7rem;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.wip-container {
+    text-align: center;
+    padding: 50px 25px;
+    color: var(--text-light);
+    background-color: var(--bg-lighter);
+    border-radius: var(--border-radius);
+    margin: 20px 0;
+}
+
+.wip-icon {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-light);
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.wip-note {
+    margin-top: 15px;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Matrix Setup */
+.matrix-setup-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.matrix-container {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex: 1;
+    min-width: 300px;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.matrix-container:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.matrix-container h2 {
+    text-align: center;
+    color: var(--primary-light);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.dimension-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding: 8px;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.dimension-selector label {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.dimension-selector select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c5ce7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 30px;
+    height: 38px;
+}
+
+.dimension-selector select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.3);
+}
+
+.matrix-wrapper {
+    position: relative;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    padding: 10px 25px;
+}
+
+.matrix-wrapper::before, .matrix-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--matrix-bracket-color), var(--accent-color));
+    border-radius: 3px;
+}
+
+.matrix-wrapper::before {
+    left: 0;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+}
+
+.matrix-wrapper::after {
+    right: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+.matrix-inputs {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.matrix-cell {
+    width: 65px;
+    height: 45px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 1rem;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.matrix-cell:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
+    background-color: var(--bg-light);
+}
+
+.matrix-info {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Operations */
+.operations-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 25px 0 30px;
+    flex-wrap: wrap;
+}
+
+.operation-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: var(--border-radius);
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.operation-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.operation-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary-color));
+}
+
+.operation-btn:hover::before {
+    left: 100%;
+}
+
+.operation-btn:active {
+    transform: translateY(0);
+}
+
+.operation-btn i {
+    font-size: 1rem;
+}
+
+.operation-btn:disabled {
+    background: linear-gradient(45deg, #555, #777);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.operation-btn:disabled:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+}
+
+.multiply-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-secondary));
+}
+
+.multiply-btn:hover {
+    background: linear-gradient(45deg, var(--accent-secondary), var(--primary-color));
+}
+
+/* Determinant Specific Styles */
+.det-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+}
+
+.det-btn:hover {
+    background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+}
+
+.det-info-panel {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid var(--border-color);
+    max-width: 500px;
+    transition: var(--transition);
+}
+
+.det-info-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.det-info-panel h3 {
+    color: var(--primary-light);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.det-info-panel ul {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.det-info-panel li {
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.method-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--bg-dark);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--accent-secondary);
+}
+
+.method-info p {
+    margin: 5px 0;
+}
+
+.method-info strong {
+    color: var(--accent-secondary);
+}
+
+.method-description {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.determinant-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    margin: 20px 0;
+    padding: 15px;
+    background-color: var(--bg-light);
+    border-radius: var(--border-radius);
+    border: 2px dashed var(--border-color);
+    transition: var(--transition);
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(108, 92, 231, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+}
+
+.determinant-result.zero {
+    color: var(--accent-color);
+}
+
+.determinant-result.nonzero {
+    color: var(--success-color);
+}
+
+/* Results Section */
+.results-section {
+    position: relative;
+    margin-top: 20px;
+}
+
+.loader {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    z-index: 10;
+}
+
+.loader:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -25px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--primary-color);
+    border-bottom-color: var(--accent-color);
+    animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.results-container, .steps-container {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.results-container h2, .steps-container h2 {
+    color: var(--primary-light);
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.copy-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--bg-light);
+}
+
+.copy-btn:hover {
+    color: var(--primary-light);
+    background-color: var(--bg-dark);
+    transform: scale(1.1);
+}
+
+.matrix-display {
+    display: flex;
+    justify-content: center;
+    min-height: 60px;
+    margin: 15px 0;
+}
+
+.matrix-display table {
+    border-collapse: collapse;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.matrix-display td {
+    border: 1px solid var(--border-color);
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 60px;
+    transition: var(--transition);
+    background-color: var(--bg-light);
+    font-weight: 500;
+}
+
+.matrix-display tr:nth-child(odd) td {
+    background-color: var(--bg-dark);
+}
+
+.steps-display {
+    background-color: var(--bg-dark);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    max-height: 350px;
+    overflow-y: auto;
+    font-family: 'Cascadia Code', 'Consolas', monospace;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    border: 1px solid var(--border-color);
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-dark) var(--bg-dark);
+}
+
+.steps-display::-webkit-scrollbar {
+    width: 8px;
+}
+
+.steps-display::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+.steps-display::-webkit-scrollbar-thumb {
+    background-color: var(--primary-dark);
+    border-radius: 10px;
+    border: 2px solid var(--bg-dark);
+}
+
+.step {
+    margin-bottom: 10px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: var(--transition);
+}
+
+.matrix-step {
+    background-color: rgba(108, 92, 231, 0.1);
+    border-left: 3px solid var(--primary-color);
+    padding: 8px 12px;
+    margin: 12px 0;
+    white-space: pre;
+    font-weight: 500;
+}
+
+.calculation-step {
+    border-left: 3px solid var(--accent-color);
+    background-color: rgba(255, 107, 129, 0.08);
+    padding: 8px 12px;
+}
+
+.error-display {
+    background-color: rgba(255, 118, 117, 0.15);
+    color: var(--error-color);
+    border-left: 4px solid var(--error-color);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-top: 20px;
+    display: none;
+    animation: slideIn 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+/* Dimension Hint */
+.dimension-hint {
+    background-color: var(--bg-lighter);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    padding: 15px 20px;
+    margin: 25px 0;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s ease;
+}
+
+.dimension-hint.warning {
+    border-left-color: var(--error-color);
+    background-color: rgba(255, 118, 117, 0.1);
+}
+
+.dimension-hint.valid {
+    border-left-color: var(--success-color);
+    background-color: rgba(0, 184, 148, 0.1);
+}
+
+.dimension-hint i {
+    font-size: 1.3rem;
+    margin-right: 12px;
+    color: var(--primary-color);
+}
+
+.dimension-hint.warning i {
+    color: var(--error-color);
+}
+
+.dimension-hint.valid i {
+    color: var(--success-color);
+}
+
+/* Animation Classes */
+.calculation-highlight {
+    animation: highlightCell 1.2s ease;
+}
+
+@keyframes highlightCell {
+    0% { background-color: rgba(108, 92, 231, 0.2); }
+    50% { background-color: rgba(108, 92, 231, 0.4); }
+    100% { background-color: rgba(108, 92, 231, 0.2); }
+}
+
+.matrix-wrapper.mult-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    perspective: 1000px;
+}
+
+.matrix-wrapper.mult-3d:hover {
+    transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+}
+
+.step-highlight {
+    animation: stepFade 0.8s ease;
+}
+
+@keyframes stepFade {
+    0% { background-color: rgba(255, 107, 129, 0.15); }
+    50% { background-color: rgba(255, 107, 129, 0.25); }
+    100% { background-color: transparent; }
+}
+
+.error-display.shake {
+    animation: shakeError 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shakeError {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    color: white;
+    margin-top: 40px;
+    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.footer-note {
+    margin-top: 5px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .matrix-setup-container {
+        flex-direction: column;
+    }
+    
+    .matrix-container {
+        max-width: 100%;
+    }
+    
+    .tab-button {
+        padding: 12px 18px;
+        font-size: 0.95rem;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .results-container, .steps-container {
+        padding: 20px 15px;
+    }
+
+    .matrix-cell {
+        width: 55px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Dark mode is default, light mode styles are in the .light-theme class */
+
+/* Inverse Specific Styles */
+.inv-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-secondary)); /* Similar to multiply */
+}
+
+.inv-btn:hover {
+    background: linear-gradient(45deg, var(--accent-secondary), var(--primary-color));
+}
+
+.inv-info-panel {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    flex: 1;
+    min-width: 300px;
+    border: 1px solid var(--border-color);
+    max-width: 500px; /* Consistent with det-info-panel */
+    transition: var(--transition);
+}
+
+.inv-info-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.inv-info-panel h3 {
+    color: var(--primary-light);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.inv-info-panel ul {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.inv-info-panel li {
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+/* End Inverse Specific Styles */
+
+/* LU Factorization Specific Styles */
+.lu-factorization-btn {
+    /* background: linear-gradient(45deg, var(--accent-color), var(--accent-secondary)); */ /* Example: Different color scheme if desired */
+}
+
+/* Reusing .inv-info-panel for .lu-info-panel, so no specific styles needed unless differentiation is required */
+
+/* End LU Factorization Specific Styles */
+
+/* Gaussian Elimination Specific Styles */
+
+/* Ensure the main setup container for the Gaussian tab stacks its direct children (input-row and info-panel) */
+#gaussian-elimination .matrix-setup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Makes children like .gauss-input-row and .gauss-info-panel take full width */
+    gap: 25px; /* Consistent spacing between the input row and the info panel */
+}
+
+.gauss-input-row {
+    display: flex;
+    gap: 25px; /* Spacing between A and b containers */
+    /* margin-bottom: 25px; /* Removed, as parent gap handles spacing */
+    width: 100%; /* Ensure the row itself takes full available width */
+}
+
+#matrixGaussAContainer {
+    flex: 1; /* Changed from 3 to 1 for 50/50 split */
+    min-width: 0; /* Allow flex shrinking */
+}
+
+#vectorGaussBContainer {
+    flex: 1; /* Vector b takes its share of space in the row */
+    min-width: 0; /* Allow flex shrinking */
+    /* display: flex; /* REMOVED */
+    /* flex-direction: column; /* REMOVED - Let children stack as block elements */
+}
+
+.dimension-selector-gauss-a {
+    /* Inherits from .dimension-selector select, can add specific styles if needed */
+}
+
+.dimension-display-gauss-b {
+    font-weight: 600;
+    color: var(--text-color);
+    padding: 8px 12px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vector-inputs {
+    display: grid;
+    gap: 10px;
+    justify-content: center; 
+    /* Max-width can be set if it grows too wide for single column */
+}
+
+/* Styling for vector b inputs, similar to matrix-cell */
+.vector-inputs .matrix-cell {
+    width: 65px; /* Same as matrix-cell for consistency */
+    height: 45px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 1rem;
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.vector-inputs .matrix-cell:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25);
+    background-color: var(--bg-light);
+}
+
+/* Wrapper for vector b, similar to matrix-wrapper but may not need brackets */
+#gaussBVectorWrapper {
+    padding: 10px 25px; /* Adjusted padding for brackets */
+    margin: 20px 0; /* Vertical margin, horizontal handled by flex container */
+    /* max-width: 100px; /* Removed max-width to allow better flex scaling */
+    position: relative; /* Needed for bracket pseudo-elements */
+    display: flex; /* To center the .vector-inputs if it's narrower */
+    justify-content: center;
+}
+
+/* Optional: Add brackets to vector b if desired */
+#gaussBVectorWrapper::before, #gaussBVectorWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--matrix-bracket-color), var(--accent-color));
+    border-radius: 3px;
+}
+#gaussBVectorWrapper::before { left: 0; box-shadow: -2px 0 5px rgba(0,0,0,0.2); }
+#gaussBVectorWrapper::after { right: 0; box-shadow: 2px 0 5px rgba(0,0,0,0.2); }
+
+.gauss-solve-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-secondary)); 
+    max-width: 100%; /* Allow to take full width if needed */
+    margin-top: 20px; /* Add some space if it wraps under matrix inputs */
+    transition: var(--transition);
+}
+
+.gauss-solve-btn:hover {
+    background: linear-gradient(45deg, var(--accent-secondary), var(--primary-color));
+}
+
+.gauss-info-panel {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    /* flex: 1; /* Removed, as parent is now a column flex container */
+    /* min-width: 300px; /* Not essential if width is 100% */
+    border: 1px solid var(--border-color);
+    /* max-width: 100%; /* Ensured by width:100% and parent */
+    /* margin-top: 20px; /* Removed, as parent gap handles spacing */
+    width: 100%; /* Ensure info panel takes full available width */
+    transition: var(--transition);
+}
+
+.gauss-info-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.gauss-info-panel h3 {
+    color: var(--primary-light);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.gauss-info-panel ul {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.gauss-info-panel li {
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+/* Ensure the general method-info styling applies if used within gauss-info-panel */
+.gauss-info-panel .method-info {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: var(--bg-dark);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--accent-secondary);
+}
+
+.gauss-info-panel .method-info p {
+    margin: 5px 0;
+}
+
+.gauss-info-panel .method-info strong {
+    color: var(--accent-secondary);
+}
+
+.gauss-info-panel .method-description {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Responsive adjustments for Gaussian elimination tab if needed */
+@media (max-width: 900px) { /* Adjust breakpoint as needed */
+    /* #gaussian-elimination .matrix-setup-container does not need flex-direction change here, it's already column */
+    
+    #gaussian-elimination .gauss-input-row {
+        flex-direction: column; /* Stack A and b on smaller screens */
+        /* width: 100%; /* Already set */
+    }
+
+    #gaussian-elimination .matrix-container, /* Targets A and B containers */
+    #gaussian-elimination .gauss-info-panel {
+        max-width: 500px; /* Constrain width on small screens for readability */
+        width: 100%; /* Take full width up to max-width */
+        flex: none; /* Reset flex sizing for A and B when stacked */
+        margin-left: auto; /* Center if max-width is applied */
+        margin-right: auto; /* Center if max-width is applied */
+    }
+    /* #gaussian-elimination .gauss-info-panel {
+      margin-top: 25px; /* Parent gap should handle this or can be re-added if needed */
+    /*}*/
+}
+
+/* End Gaussian Elimination Specific Styles */ 
+
+/* Gauss-Jordan Elimination Specific Styles */
+.gauss-jordan-solve-btn {
+    background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+    max-width: 100%;
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.gauss-jordan-solve-btn:hover {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.gauss-jordan-info-panel {
+    background-color: var(--bg-lighter);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    width: 100%;
+    transition: var(--transition);
+}
+
+.gauss-jordan-info-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+}
+
+.gauss-jordan-info-panel h3 {
+    color: var(--accent-color);
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.gauss-jordan-info-panel ul {
+    margin: 10px 0;
+    padding-left: 25px;
+}
+
+.gauss-jordan-info-panel li {
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.dimension-selector-gauss-jordan-a {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-dark);
+    color: var(--text-color);
+    font-size: 0.95rem;
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c5ce7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 30px;
+    height: 38px;
+}
+
+.dimension-display-gauss-jordan-b {
+    font-weight: 600;
+    color: var(--text-color);
+    padding: 8px 12px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#resultGaussJordanRref, #resultGaussJordanSolution {
+    animation: fadeIn 0.8s ease;
+}
+
+/* Highlight for a pivot in the RREF */
+.pivot-highlight {
+    background-color: rgba(108, 92, 231, 0.3) !important;
+    font-weight: bold;
+    color: var(--primary-color);
+    animation: glowPivot 2s infinite;
+}
+
+@keyframes glowPivot {
+    0% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.4); }
+    50% { box-shadow: 0 0 0 5px rgba(108, 92, 231, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+}
+
+/* Responsive adjustments for Gauss-Jordan tab */
+@media (max-width: 900px) {
+    #gauss-jordan .gauss-input-row {
+        flex-direction: column;
+    }
+
+    #gauss-jordan .matrix-container,
+    #gauss-jordan .gauss-jordan-info-panel {
+        max-width: 500px;
+        width: 100%;
+        flex: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+/* End Gauss-Jordan Elimination Specific Styles */

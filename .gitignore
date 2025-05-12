@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Entorno virtual
+venv/
+env/
+ENV/
+backend/venv/
+.env
+
+# Archivos de distribución
+dist/
+build/
+*.egg-info/
+
+# Archivos de IDE y editores
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+.vs/
+
+# Archivos de registro y caches
+*.log
+.*.logs
+*.cache
+
+# Archivos específicos del proyecto que se deben ignorar
+# Añade aquí archivos específicos que no deban estar en control de versiones 

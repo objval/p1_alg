@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Matrices</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="theme-toggle" title="Cambiar tema">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </div>
+
+    <header>
+        <h1>Calculadora de Álgebra Lineal <span class="version">v1.0</span></h1>
+        <p class="subtitle">MAT1187 - Universidad</p>
+    </header>
+
+    <main>
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-button active" data-tab="basic-ops">
+                    <i class="fas fa-plus-minus"></i> Suma/Resta
+                </button>
+                <button class="tab-button" data-tab="multiplication">
+                    <i class="fas fa-times"></i> Multiplicación
+                </button>
+                <button class="tab-button" data-tab="determinant">
+                    <i class="fas fa-calculator"></i> Determinante
+                </button>
+                <button class="tab-button" data-tab="inverse">
+                    <i class="fas fa-undo"></i> Inversa
+                </button>
+                <button class="tab-button" data-tab="gaussian-elimination">
+                    <i class="fas fa-stream"></i> Gaussiana (Ax=b)
+                </button>
+                <button class="tab-button" data-tab="gauss-jordan">
+                    <i class="fas fa-project-diagram"></i> Gauss-Jordan
+                </button>
+                <button class="tab-button" data-tab="lu-factorization">
+                    <i class="fas fa-th-large"></i> Factorización LU
+                </button>
+                <button class="tab-button" data-tab="systems">
+                    <i class="fas fa-equals"></i> Otros Sistemas
+                    <span class="wip-badge">WIP</span>
+                </button>
+            </div>
+
+            <div class="tab-content active" id="basic-ops">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixAContainer">
+                        <h2><i class="fas fa-table"></i> Matriz A</h2>
+                        <div class="dimension-selector">
+                            <label for="rowsA">Filas:</label>
+                            <select id="rowsA" class="rows-selector" data-matrix="A">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <label for="colsA">Columnas:</label>
+                            <select id="colsA" class="cols-selector" data-matrix="A">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper">
+                            <div id="matrixAInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+
+                    <div class="matrix-container" id="matrixBContainer">
+                        <h2><i class="fas fa-table"></i> Matriz B</h2>
+                        <div class="dimension-selector">
+                            <label for="rowsB">Filas:</label>
+                            <select id="rowsB" class="rows-selector" data-matrix="B">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <label for="colsB">Columnas:</label>
+                            <select id="colsB" class="cols-selector" data-matrix="B">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper">
+                            <div id="matrixBInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="addButton" class="operation-btn">
+                        <i class="fas fa-plus"></i> Sumar (A + B)
+                    </button>
+                    <button id="subtractButton" class="operation-btn">
+                        <i class="fas fa-minus"></i> Restar (A - B)
+                    </button>
+                </div>
+
+                <div class="results-section">
+                    <div id="loader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Resultado <button id="copyResult" class="copy-btn" title="Copiar resultado"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultMatrix" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="multiplication">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixMultAContainer">
+                        <h2><i class="fas fa-table"></i> Matriz A</h2>
+                        <div class="dimension-selector">
+                            <label for="rowsMultA">Filas:</label>
+                            <select id="rowsMultA" class="rows-selector" data-matrix="A">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <label for="colsMultA">Columnas:</label>
+                            <select id="colsMultA" class="cols-selector" data-matrix="A">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper">
+                            <div id="matrixMultAInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+
+                    <div class="matrix-container" id="matrixMultBContainer">
+                        <h2><i class="fas fa-table"></i> Matriz B</h2>
+                        <div class="dimension-selector">
+                            <label for="rowsMultB">Filas:</label>
+                            <select id="rowsMultB" class="rows-selector" data-matrix="B">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <label for="colsMultB">Columnas:</label>
+                            <select id="colsMultB" class="cols-selector" data-matrix="B">
+                                <option value="1">1</option>
+                                <option value="2" selected>2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper">
+                            <div id="matrixMultBInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dimension-hint" id="multiplicationDimensionHint">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Para multiplicar A×B: las columnas de A (2) deben ser iguales a las filas de B (2)</span>
+                </div>
+
+                <div class="operations-container">
+                    <button id="multiplyButton" class="operation-btn multiply-btn">
+                        <i class="fas fa-times"></i> Multiplicar (A × B)
+                    </button>
+                </div>
+
+                <div class="results-section" id="multiplicationResults">
+                    <div id="multiplicationLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Resultado <button id="copyMultResult" class="copy-btn" title="Copiar resultado"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultMultMatrix" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsMultDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorMultDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="determinant">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixDetContainer">
+                        <h2><i class="fas fa-table"></i> Matriz</h2>
+                        <div class="dimension-selector">
+                            <label for="rowsDet">Dimensión:</label>
+                            <select id="dimensionDet" class="dimension-selector-det">
+                                <option value="1">1×1</option>
+                                <option value="2" selected>2×2</option>
+                                <option value="3">3×3</option>
+                                <option value="4">4×4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper" id="detMatrixWrapper">
+                            <div id="matrixDetInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+                    
+                    <div class="det-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Acerca del Determinante</h3>
+                        <p>El determinante es un valor escalar calculado a partir de los elementos de una matriz cuadrada.</p>
+                        <p>Se utiliza para:</p>
+                        <ul>
+                            <li>Determinar si una matriz tiene inversa (det ≠ 0)</li>
+                            <li>Calcular la inversa de una matriz</li>
+                            <li>Resolver sistemas de ecuaciones (regla de Cramer)</li>
+                            <li>Determinar si vectores son linealmente independientes</li>
+                        </ul>
+                        <div class="method-info">
+                            <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Eliminación Gaussiana</p>
+                            <p class="method-description">El algoritmo transforma la matriz a forma triangular superior mediante operaciones elementales de fila.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="determinantButton" class="operation-btn det-btn">
+                        <i class="fas fa-calculator"></i> Calcular Determinante
+                    </button>
+                </div>
+
+                <div class="results-section" id="determinantResults">
+                    <div id="determinantLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Resultado <button id="copyDetResult" class="copy-btn" title="Copiar resultado"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultDeterminant" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsDetDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorDetDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="inverse">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixInvContainer">
+                        <h2><i class="fas fa-table"></i> Matriz para Inversa</h2>
+                        <div class="dimension-selector">
+                            <label for="dimensionInv">Dimensión:</label>
+                            <select id="dimensionInv" class="dimension-selector-inv">
+                                <option value="1">1×1</option>
+                                <option value="2" selected>2×2</option>
+                                <option value="3">3×3</option>
+                                <option value="4">4×4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper" id="invMatrixWrapper">
+                            <div id="matrixInvInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones (ej: "1/2")</p>
+                        </div>
+                    </div>
+                    
+                    <div class="inv-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Acerca de la Inversa</h3>
+                        <p>La matriz inversa (A<sup>-1</sup>) es aquella que, multiplicada por la matriz original (A), resulta en la matriz identidad (I).</p>
+                        <p>Condiciones para la existencia de la inversa:</p>
+                        <ul>
+                            <li>La matriz debe ser cuadrada.</li>
+                            <li>El determinante de la matriz debe ser distinto de cero (det(A) ≠ 0).</li>
+                        </ul>
+                         <div class="method-info">
+                            <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Eliminación Gauss-Jordan</p>
+                            <p class="method-description">Se aumenta la matriz original con la matriz identidad [A|I] y se aplican operaciones elementales de fila hasta obtener [I|A<sup>-1</sup>].</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="inverseButton" class="operation-btn inv-btn">
+                        <i class="fas fa-undo"></i> Calcular Inversa
+                    </button>
+                </div>
+
+                <div class="results-section" id="inverseResults">
+                    <div id="inverseLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Matriz Inversa <button id="copyInvResult" class="copy-btn" title="Copiar resultado"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultInverseMatrix" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsInvDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorInvDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="gaussian-elimination">
+                <div class="matrix-setup-container">
+                    <div class="gauss-input-row">
+                        <div class="matrix-container" id="matrixGaussAContainer">
+                            <h2><i class="fas fa-table"></i> Matriz de Coeficientes A</h2>
+                            <div class="dimension-selector">
+                                <label for="dimensionGaussA">Dimensión (A es N×N):</label>
+                                <select id="dimensionGaussA" class="dimension-selector-gauss-a">
+                                    <option value="1">1×1</option>
+                                    <option value="2" selected>2×2</option>
+                                    <option value="3">3×3</option>
+                                    <option value="4">4×4</option>
+                                </select>
+                            </div>
+                            <div class="matrix-wrapper" id="gaussAMatrixWrapper">
+                                <div id="matrixGaussAInputs" class="matrix-inputs"></div>
+                            </div>
+                            <div class="matrix-info">
+                                <p><i class="fas fa-info-circle"></i> A debe ser cuadrada.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="matrix-container" id="vectorGaussBContainer">
+                            <h2><i class="fas fa-columns"></i> Vector de Constantes b</h2>
+                            <div class="dimension-selector">
+                                <label>Dimensión (b es N×1):</label>
+                                <span id="dimensionGaussBDisplay" class="dimension-display-gauss-b">2×1</span>
+                            </div>
+                            <div class="matrix-wrapper" id="gaussBVectorWrapper">
+                                 <div id="vectorGaussBInputs" class="vector-inputs"></div>
+                            </div>
+                            <div class="matrix-info">
+                                <p><i class="fas fa-info-circle"></i> Número de elementos de 'b' debe ser igual a N.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gauss-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Eliminación Gaussiana para Ax=b</h3>
+                        <p>Este método resuelve sistemas de ecuaciones lineales transformando la matriz aumentada [A|b] en una forma escalonada por filas.</p>
+                        <p>Pasos Clave:</p>
+                        <ul>
+                            <li>Formar la matriz aumentada [A|b].</li>
+                            <li>Aplicar operaciones elementales de fila para triangularizar A.</li>
+                            <li>Realizar sustitución hacia atrás para encontrar la solución x.</li>
+                        </ul>
+                        <div class="method-info">
+                            <p><i class="fas fa-cogs"></i> <strong>Proceso:</strong></p>
+                            <p class="method-description">Se identifican pivotes, se eliminan elementos debajo de los pivotes y se verifica la consistencia del sistema (solución única, múltiple o sin solución).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="solveGaussianButton" class="operation-btn gauss-solve-btn">
+                        <i class="fas fa-play-circle"></i> Resolver Sistema (Ax=b)
+                    </button>
+                </div>
+
+                <div class="results-section" id="gaussianResults">
+                    <div id="gaussianLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Solución <button id="copyGaussianResult" class="copy-btn" title="Copiar resultado"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultGaussianSolution" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsGaussianDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorGaussianDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="lu-factorization">
+                <div class="matrix-setup-container">
+                    <div class="matrix-container" id="matrixLuAContainer">
+                        <h2><i class="fas fa-table"></i> Matriz A para LU</h2>
+                        <div class="dimension-selector">
+                            <label for="dimensionLuA">Dimensión (A es N×N):</label>
+                            <select id="dimensionLuA" class="dimension-selector-lu-a">
+                                <option value="1">1×1</option>
+                                <option value="2" selected>2×2</option>
+                                <option value="3">3×3</option>
+                                <option value="4">4×4</option>
+                            </select>
+                        </div>
+                        <div class="matrix-wrapper" id="luAMatrixWrapper">
+                            <div id="matrixLuAInputs" class="matrix-inputs"></div>
+                        </div>
+                        <div class="matrix-info">
+                            <p><i class="fas fa-info-circle"></i> A debe ser cuadrada. Ingresa números enteros, decimales o fracciones.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="lu-info-panel inv-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Factorización LU (Doolittle)</h3>
+                        <p>La factorización LU descompone una matriz cuadrada A en el producto de dos matrices: una matriz triangular inferior L (con 1s en la diagonal) y una matriz triangular superior U.</p>
+                        <p>A = LU</p>
+                        <p>Utilidad:</p>
+                        <ul>
+                            <li>Resolver sistemas de ecuaciones lineales (Ax=b) de forma eficiente.</li>
+                            <li>Calcular determinantes (det(A) = det(L) * det(U) = det(U)).</li>
+                            <li>Calcular la inversa de una matriz.</li>
+                        </ul>
+                         <div class="method-info">
+                            <p><i class="fas fa-code-branch"></i> <strong>Método:</strong> Doolittle (sin pivoteo)</p>
+                            <p class="method-description">Se calculan iterativamente los elementos de L y U. Esta implementación no realiza pivoteo, por lo que puede fallar si un pivote U<sub>kk</sub> es cero.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="luFactorizationButton" class="operation-btn lu-factorization-btn">
+                        <i class="fas fa-th-large"></i> Calcular LU
+                    </button>
+                </div>
+
+                <div class="results-section" id="luFactorizationResults">
+                    <div id="luLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Matriz L <button id="copyLuLResult" class="copy-btn" title="Copiar Matriz L"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultLuLMatrix" class="matrix-display"></div>
+                    </div>
+                    <div class="results-container">
+                        <h2>Matriz U <button id="copyLuUResult" class="copy-btn" title="Copiar Matriz U"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultLuUMatrix" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsLuDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorLuDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="gauss-jordan">
+                <div class="matrix-setup-container">
+                    <div class="gauss-input-row">
+                        <div class="matrix-container" id="matrixGaussJordanAContainer">
+                            <h2><i class="fas fa-table"></i> Matriz de Coeficientes A</h2>
+                            <div class="dimension-selector">
+                                <label for="dimensionGaussJordanA">Dimensión (A):</label>
+                                <select id="dimensionGaussJordanA" class="dimension-selector-gauss-jordan-a">
+                                    <option value="1">1×1</option>
+                                    <option value="2" selected>2×2</option>
+                                    <option value="3">3×3</option>
+                                    <option value="4">4×4</option>
+                                </select>
+                            </div>
+                            <div class="matrix-wrapper" id="gaussJordanAMatrixWrapper">
+                                <div id="matrixGaussJordanAInputs" class="matrix-inputs"></div>
+                            </div>
+                            <div class="matrix-info">
+                                <p><i class="fas fa-info-circle"></i> Ingresa números enteros, decimales o fracciones.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="matrix-container" id="vectorGaussJordanBContainer">
+                            <h2><i class="fas fa-columns"></i> Vector de Constantes b</h2>
+                            <div class="dimension-selector">
+                                <label>Dimensión (b):</label>
+                                <span id="dimensionGaussJordanBDisplay" class="dimension-display-gauss-jordan-b">2×1</span>
+                            </div>
+                            <div class="matrix-wrapper" id="gaussJordanBVectorWrapper">
+                                 <div id="vectorGaussJordanBInputs" class="vector-inputs"></div>
+                            </div>
+                            <div class="matrix-info">
+                                <p><i class="fas fa-info-circle"></i> Número de elementos de 'b' debe ser igual al número de filas de A.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="gauss-jordan-info-panel">
+                        <h3><i class="fas fa-info-circle"></i> Eliminación Gauss-Jordan</h3>
+                        <p>Este método resuelve sistemas de ecuaciones lineales Ax=b transformando la matriz aumentada [A|b] en su forma escalonada reducida por filas (RREF).</p>
+                        <p>Características:</p>
+                        <ul>
+                            <li>Transforma cada pivote a 1 y elimina elementos arriba y debajo de cada pivote.</li>
+                            <li>Determina si el sistema tiene solución única, infinitas soluciones o no tiene solución.</li>
+                            <li>Funciona con matrices cuadradas y rectangulares.</li>
+                        </ul>
+                        <div class="method-info">
+                            <p><i class="fas fa-lightbulb"></i> <strong>Resultado:</strong></p>
+                            <p class="method-description">Se obtiene la forma escalonada reducida (RREF) de [A|b], que revela directamente las soluciones del sistema sin necesidad de sustitución hacia atrás.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="operations-container">
+                    <button id="solveGaussJordanButton" class="operation-btn gauss-jordan-solve-btn">
+                        <i class="fas fa-play-circle"></i> Resolver Sistema con Gauss-Jordan
+                    </button>
+                </div>
+
+                <div class="results-section" id="gaussJordanResults">
+                    <div id="gaussJordanLoader" class="loader"></div>
+                    <div class="results-container">
+                        <h2>Forma Escalonada Reducida <button id="copyGaussJordanRrefResult" class="copy-btn" title="Copiar RREF"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultGaussJordanRref" class="matrix-display"></div>
+                    </div>
+                    <div class="results-container">
+                        <h2>Solución <button id="copyGaussJordanSolutionResult" class="copy-btn" title="Copiar solución"><i class="fas fa-copy"></i></button></h2>
+                        <div id="resultGaussJordanSolution" class="matrix-display"></div>
+                    </div>
+                    
+                    <div class="steps-container">
+                        <h2>Pasos del Cálculo</h2>
+                        <div id="stepsGaussJordanDisplay" class="steps-display"></div>
+                    </div>
+
+                    <div id="errorGaussJordanDisplay" class="error-display"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="systems">
+                <div class="wip-container">
+                    <i class="fas fa-equals wip-icon"></i>
+                    <h2>Sistemas de Ecuaciones Lineales</h2>
+                    <p>Esta funcionalidad está en desarrollo y estará disponible pronto.</p>
+                    <p class="wip-note">Se incluirán métodos de eliminación gaussiana, Gauss-Jordan y factorización LU.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Nicolas Vergara, Jecar Yañez, Simon Cifuentes, Yaninna Alvarez</p>
+        <p class="footer-note">Proyecto 1 - Algebra Lineal (2025)</p>
+    </footer>
+
+    <script src="/static/script.js?v=20250517"></script>
+</body>
+</html> 
